@@ -52,10 +52,10 @@ app.use("/api/players", players);
 app.use("/api/drafts", drafts);
 app.use("/api/teams", teams);
 
-app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.use(express.static(path.resolve(__dirname, "./client")));
 
 app.get("*", (req, res) => {
-  let url = path.join(__dirname, "./client/build", "index.html");
+  let url = path.join(__dirname, "./client", "index.html");
   res.sendFile(url);
 });
 
