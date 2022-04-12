@@ -3,7 +3,6 @@ import "../../App.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LeagueCard from "./LeagueCard";
-const config = require("../../../config");
 
 class LeagueList extends Component {
   constructor(props) {
@@ -15,14 +14,14 @@ class LeagueList extends Component {
 
   componentDidMount() {
     axios
-      .get(`${config.SERVER_URI}/api/leagues`)
+      .get("/api/leagues")
       .then((res) => {
         this.setState({
           leagues: res.data,
         });
       })
       .catch((err) => {
-        console.log("Leagues are: " + config.SERVER_URI);
+        console.log("Leagues are: ");
       });
   }
 
