@@ -7,6 +7,7 @@ const leagues = require("./routes/api/leagues");
 const players = require("./routes/api/players");
 const drafts = require("./routes/api/drafts");
 const teams = require("./routes/api/teams");
+const path = require("path");
 
 var cors = require("cors");
 
