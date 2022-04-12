@@ -3,7 +3,7 @@ import "../../App.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LeagueCard from "./LeagueCard";
-const config = require("../../config");
+const config = require("../../../config");
 
 class LeagueList extends Component {
   constructor(props) {
