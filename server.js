@@ -24,17 +24,22 @@ app.use(bodyParser.json());
 const db = require("./config/keys").mongoURI;
 
 //cors
-/*
+
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://usfl-fantasy.herokuapp.com/"
+  );
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
-});*/
+});
 
-//app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({ origin: "https://usfl-fantasy.herokuapp.com/", credentials: true })
+);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

@@ -22,7 +22,7 @@ class LeagueList extends Component {
         });
       })
       .catch((err) => {
-        console.log("Leagues are: " + this.state.leagues);
+        console.log("Leagues are: " + config.SERVER_URI);
       });
   }
 
