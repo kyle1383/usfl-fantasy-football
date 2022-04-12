@@ -23,10 +23,7 @@ class Invite extends Component {
     };
 
     axios
-      .put(
-        "http://localhost:5000/api/leagues/join/" + this.props.match.params.id,
-        data
-      )
+      .put("/api/leagues/join/" + this.props.match.params.id, data)
       .then((res) => {
         this.setState({
           user: {},
@@ -42,7 +39,7 @@ class Invite extends Component {
       console.log(this.props.auth); //this.props.history.push("/dashboard");
     }
     axios
-      .get("http://localhost:5000/api/leagues/" + this.props.match.params.id)
+      .get("/api/leagues/" + this.props.match.params.id)
       .then((res) => {
         this.setState({
           league: res.data,

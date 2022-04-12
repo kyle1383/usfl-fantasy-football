@@ -50,7 +50,7 @@ function PlayerFeed({ drafted, draftPlayer, enabled, autodraft }) {
   useEffect(() => {
     if (drafted) {
       axios
-        .get("http://localhost:5000/api/players")
+        .get("/api/players")
         .then((res) => {
           const offensive_pos = ["QB", "WR", "RB", "TE", "K", "FB"];
           let undrafted = res.data.filter(function (player, index, arr) {

@@ -36,7 +36,7 @@ class CreateLeague extends Component {
     };
 
     axios
-      .post("http://localhost:5000/api/leagues/", data)
+      .post("/api/leagues/", data)
       .then((res) => {
         this.setState({
           name: "",

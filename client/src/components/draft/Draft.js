@@ -22,7 +22,7 @@ function Draft(props) {
   const setOnClock = (onClock) => {
     _setOnClock(onClock);
     axios
-      .get("http://localhost:5000/api/teams/" + onClock)
+      .get("/api/teams/" + onClock)
       .then((team) => {
         setAllowAdd(team.data.owner === props.auth.user._id);
       })
@@ -36,10 +36,7 @@ function Draft(props) {
       user_id: props.auth.user.id,
     };
     axios
-      .put(
-        "http://localhost:5000/api/drafts/" + id + "/draft/" + player._id,
-        data
-      )
+      .put("/api/drafts/" + id + "/draft/" + player._id, data)
       .then((res) => {
         console.log(res);
         setRoundLen(res.data.round_len);
@@ -56,21 +53,19 @@ function Draft(props) {
   }
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/players/exist")
+      .get("/api/players/exist")
       .then((res) => {
         if (!res.data) {
-          axios
-            .post("http://localhost:5000/api/players/refresh")
-            .then((res) => {
-              console.log("updated players");
-            });
+          axios.post("/api/players/refresh").then((res) => {
+            console.log("updated players");
+          });
         }
       })
       .catch((err) => {
         console.log("Error from ShowLeagueList");
       });
     axios
-      .get("http://localhost:5000/api/drafts/" + id)
+      .get("/api/drafts/" + id)
       .then((res) => {
         setRoundLen(res.data.round_len);
         setDraft(res.data);

@@ -18,7 +18,7 @@ function UpdateDraft() {
   //Life Cycle Functions
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/drafts/" + id)
+      .get("/api/drafts/" + id)
       .then((res) => {
         console.log(res.data);
         setOrder(res.data.teams);
@@ -38,7 +38,7 @@ function UpdateDraft() {
       on_clock: order[0],
     };
     axios
-      .put("http://localhost:5000/api/drafts/" + id, data)
+      .put("/api/drafts/" + id, data)
       .then((res) => {
         console.log(res);
       })

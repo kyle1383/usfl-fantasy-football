@@ -14,7 +14,7 @@ class LeagueList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/api/leagues")
+      .get("/api/leagues")
       .then((res) => {
         this.setState({
           leagues: res.data,

@@ -17,7 +17,7 @@ class League extends Component {
   componentDidMount() {
     // console.log("Print id: " + this.props.match.params.id);
     axios
-      .get("http://localhost:5000/api/leagues/" + this.props.match.params.id)
+      .get("/api/leagues/" + this.props.match.params.id)
       .then((res) => {
         // console.log("Print-showBookDetails-API-response: " + res.data);
         this.setState({
@@ -31,7 +31,7 @@ class League extends Component {
 
   onDeleteClick(id) {
     axios
-      .delete("http://localhost:5000/api/leagues/" + id)
+      .delete("/api/leagues/" + id)
       .then((res) => {
         this.props.history.push("/");
       })
