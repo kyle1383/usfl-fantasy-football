@@ -21,7 +21,7 @@ class LeagueList extends Component {
         });
       })
       .catch((err) => {
-        console.log("Error from ShowLeagueList");
+        console.log("Error from ShowLeagueList" + err);
       });
   }
 
