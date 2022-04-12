@@ -1,0 +1,13 @@
+League Model 
+
+Has an owner 
+Has Managers 
+needs an invite code? 
+    I guess we can do it through a /league/invite route? If a user hits this they can request to join, commisioner can accept them
+
+ACTIONS 
+    Update Name
+    add members 
+
+League dashboard
+member invite
