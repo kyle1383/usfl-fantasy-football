@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 const db = require("./config/keys").mongoURI;
 
 //cors
+console.log("we up and running");
 
 app.use((req, res, next) => {
   res.setHeader(
