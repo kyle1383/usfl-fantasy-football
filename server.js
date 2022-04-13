@@ -10,7 +10,7 @@ const drafts = require("./routes/api/drafts");
 const teams = require("./routes/api/teams");
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://usfl-fantasy.herokuapp.com/",
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
