@@ -19,7 +19,7 @@ function LeagueList() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/leagues")
+      .get("/api/leagues")
       .then((res) => {
         setLeagues(res.data);
       })
