@@ -23,9 +23,6 @@ mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.log(err));
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-});
 
 app.use("/api/leagues", leagues);
 app.use("/api/players", players);
@@ -33,6 +30,15 @@ app.use("/api/drafts", drafts);
 app.use("/api/teams", teams);
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    if (req.url === "/api") return next();
+    console.log(req.url);
+    res.sendFile(path.join(__dirname, "/client/build/index.html"));
+  });
+}
+
 // set port, listen for requests
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
