@@ -23,6 +23,9 @@
     "mongoose": "^6.2.8",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
+    "react-router-dom": "0.0.0-experimental-compat.6",
+    "react-validation": "^3.0.7",
+    "socket.io": "^4.4.1",
     "validation": "^0.0.1",
     "validator": "^13.7.0"
   },

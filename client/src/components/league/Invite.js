@@ -1,45 +1,97 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import "../../App.css";
 import axios from "axios";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { logoutUser } from "../../actions/authActions";
+import AuthService from "../../services/auth.service";
+import { useParams, useNavigate } from "react-router-dom";
+import UserService from "../../services/user.service";
 
 /**
  * INVITE COMPONENT
  * 1st checks if you are logged in. If not, requests a login.
  */
-class Invite extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      league: {},
-      user: {},
-    };
-  }
-  onJoinClick = (e) => {
+function Invite() {
+  const [user, setUser] = useState([]);
+  const [league, setLeague] = useState();
+  let { id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    UserService.getUserBoard().then(
+      (response) => {
+        console.log(response.data);
+        setUser(AuthService.getCurrentUser());
+        console.log("a");
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setLeague(_content);
+        console.log("b");
+        navigate("/login");
+      }
+    );
+  }, []);
+
+  //functions
+  function onJoinClick(e) {
     const data = {
-      user: this.props.auth.user.id,
+      user: user.id,
     };
 
     axios
-      .put("/api/leagues/join/" + this.props.match.params.id, data)
+      .put("/api/leagues/join/" + id, data)
       .then((res) => {
-        this.setState({
-          user: {},
-        });
-        this.props.history.push("/");
+        setUser(user);
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.log("Error Joining League!");
       });
-  };
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      console.log(this.props.auth); //this.props.history.push("/dashboard");
-    }
-    axios
-      .get("/api/leagues/" + this.props.match.params.id)
+  }
+  //sub componenets
+
+  let LeagueItem = (
+    <div>
+      {console.log(user)}
+      <h2>Hi {user.username}, you have been invited to a league</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th scope="row">2</th>
+            <td>owner</td>
+            <td>{/*league.owner*/}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Published Date</td>
+            <td>{/*league.date*/}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+  return (
+    <div className="">
+      {console.log(league)}
+      <h1>{/*league.name*/}</h1>
+
+      <div>{LeagueItem}</div>
+      <button onClick={(e) => onJoinClick(e)} className="">
+        Join League
+      </button>
+    </div>
+  );
+}
+
+export default Invite;
+
+/*
+axios
+      .get("/api/leagues/" + id)
       .then((res) => {
         this.setState({
           league: res.data,
@@ -48,46 +100,4 @@ class Invite extends Component {
       .catch((err) => {
         console.log("Error from League");
       });
-  }
-
-  render() {
-    const league = this.state.league;
-    let LeagueItem = (
-      <div>
-        <h2>You Have been INvited to a league</h2>
-        <table>
-          <tbody>
-            <tr>
-              <th scope="row">2</th>
-              <td>owner</td>
-              <td>{league.owner}</td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Published Date</td>
-              <td>{league.date}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-    return (
-      <div className="">
-        <h1>{league.name}</h1>
-
-        <div>{LeagueItem}</div>
-        <button onClick={this.onJoinClick} className="">
-          Join League
-        </button>
-      </div>
-    );
-  }
-}
-Invite.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps, { logoutUser })(Invite);
+*/

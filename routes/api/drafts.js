@@ -56,7 +56,9 @@ draftRouter.put("/:id/draft/:player_id", (req, res) => {
         }
         Player.findById(req.params.player_id).then((player) => {
           //team updates
+
           team.players.push(player);
+
           if (team.players.length != draft.round) {
             response = "You already drafted this round";
           }
@@ -76,11 +78,13 @@ draftRouter.put("/:id/draft/:player_id", (req, res) => {
             draft.on_clock = draft.teams[order_index + 1];
           }
           draft.clock_start = Date.now();
+
           if (response) {
+            console.log(response);
             res.json(response);
           } else {
-            //team.save();
-            //draft.save();
+            team.save();
+            draft.save();
             res.json(draft);
           }
         });

@@ -1,89 +1,63 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component, useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import "../../App.css";
 import axios from "axios";
-/**
- * Create draft vs update draft should be about the same
- */
 
-class League extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      league: {},
-    };
-  }
+function League() {
+  //state
+  let { id } = useParams();
+  const [league, setLeague] = useState([]);
 
-  componentDidMount() {
-    // console.log("Print id: " + this.props.match.params.id);
+  //functions
+
+  useEffect(() => {
+    console.log(id);
     axios
-      .get("/api/leagues/" + this.props.match.params.id)
+      .get("/api/leagues/" + id)
       .then((res) => {
         // console.log("Print-showBookDetails-API-response: " + res.data);
-        this.setState({
-          league: res.data,
-        });
+
+        setLeague(res.data);
       })
       .catch((err) => {
-        console.log("Error from League");
+        console.log(err);
       });
-  }
+  }, []);
 
-  onDeleteClick(id) {
-    axios
-      .delete("/api/leagues/" + id)
-      .then((res) => {
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        console.log("Error form League Deletion");
-      });
-  }
+  //sub components
+  let LeagueItem = (
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <th scope="row">2</th>
+            <td>owner</td>
+            <td>{league.owner}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Published Date</td>
+            <td>{league.date}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 
-  render() {
-    const league = this.state.league;
-    let LeagueItem = (
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <th scope="row">2</th>
-              <td>owner</td>
-              <td>{league.owner}</td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Published Date</td>
-              <td>{league.date}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
+  return (
+    <div className="">
+      <Link to="/">Show League List</Link>
 
-    return (
-      <div className="">
-        <Link to="/">Show League List</Link>
+      <h1>{league.name}</h1>
 
-        <h1>{league.name}</h1>
+      <div>{LeagueItem}</div>
 
-        <div>{LeagueItem}</div>
+      <p>Invite Link: {window.location.href}/invite</p>
 
-        <button
-          type="button"
-          onClick={this.onDeleteClick.bind(this, league._id)}
-        >
-          Delete League
-        </button>
-        <p>Invite Link: {window.location.href}/invite</p>
-
-        <Link to={`/draft-settings/${this.state.league.drafts}`}>
-          Draft Settings
-        </Link>
-        <Link to={`/draft/${this.state.league.drafts}`}>Draft</Link>
-      </div>
-    );
-  }
+      <Link to={`/draft-settings/${league.drafts}`}>Draft Settings</Link>
+      <Link to={`/draft/${league.drafts}`}>Draft</Link>
+    </div>
+  );
 }
 
 export default League;

@@ -1,13 +1,19 @@
 // app.js
-
 const express = require("express");
 const connectDB = require("./config/db");
+const http = require("http");
 var cors = require("cors");
-
+const socketIo = require("socket.io");
 // routes
 const books = require("./routes/api/books");
 
 const app = express();
+
+const server = http.createServer(app);
+
+const io = socketIo(server); // < Interesting!
+
+const getApiAndEmit = "TODO";
 
 // Connect Database
 connectDB();

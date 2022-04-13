@@ -1,53 +1,42 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import LeagueCard from "./LeagueCard";
 
-class LeagueList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      leagues: [],
-    };
+function LeagueList() {
+  const [leagues, setLeagues] = useState([]);
+
+  let leagueList;
+
+  if (!leagues) {
+    leagueList = "there is no book record!";
+  } else {
+    leagueList = leagues.map((league, k) => (
+      <LeagueCard league={league} key={k} />
+    ));
   }
 
-  componentDidMount() {
+  useEffect(() => {
     axios
-      .get("/api/leagues")
+      .get("http://localhost:5000/api/leagues")
       .then((res) => {
-        this.setState({
-          leagues: res.data,
-        });
+        setLeagues(res.data);
       })
       .catch((err) => {
         console.log("Leagues are: ");
       });
-  }
+  }, []);
 
-  render() {
-    const leagues = this.state.leagues;
+  return (
+    <div className="">
+      <h2>Your Leagues</h2>
 
-    let leagueList;
+      <Link to="/new-league">Create New League</Link>
 
-    if (!leagues) {
-      leagueList = "there is no book record!";
-    } else {
-      leagueList = leagues.map((league, k) => (
-        <LeagueCard league={league} key={k} />
-      ));
-    }
-
-    return (
-      <div className="">
-        <h2>Books List</h2>
-
-        <Link to="/new-league">+ Add New Book</Link>
-
-        <div>{leagueList}</div>
-      </div>
-    );
-  }
+      <div>{leagueList}</div>
+    </div>
+  );
 }
 
 export default LeagueList;

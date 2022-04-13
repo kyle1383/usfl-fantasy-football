@@ -1,28 +1,24 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React from 'react'
+import AuthService from './Services/AuthService'
+import { Redirect, Route } from 'react-router-dom'
 
-const PrivateRoute = ({ component: Component, auth, path, ...rest }) => (
-  <Route
-    path={path}
-    {...rest}
-    render={(props) =>
-      auth.isAuthenticated === true ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          push
-          to={{ pathname: "/login", state: { prevLocation: path } }}
-        />
-      )
-    }
-  />
-);
-PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired,
-};
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps)(PrivateRoute);
+const PrivateRoute = ({ component: Component, ...rest }) => {
+
+  // Add your own authentication on the below line.
+  const isLoggedIn = AuthService.isLoggedIn()
+
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        return isLoggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        )
+      }
+    />
+  )
+}
+
+export default PrivateRoute

@@ -3,20 +3,23 @@ import "../../App.css";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import AuthService from "../../services/auth.service";
 import PlayerFeed from "./PlayerFeed";
 import Timer from "./timer/Timer";
 import DraftBoard from "../draft/draftboard/DraftBoard";
 import { useParams } from "react-router-dom";
 
-function Draft(props) {
+function Draft() {
   const [round, setRound] = useState(0);
   const [roundLen, setRoundLen] = useState();
   const [clockStart, setStart] = useState();
+  const [time, setTime] = useState();
   const [onClock, _setOnClock] = useState();
   const [draft, setDraft] = useState([]);
   const [allowAdd, setAllowAdd] = useState([false]);
   const [autoDraft, setAutoDraft] = useState(false);
+  const user = AuthService.getCurrentUser();
+  const [update, setUpdate] = useState(1);
   let { id } = useParams();
 
   const setOnClock = (onClock) => {
@@ -24,21 +27,20 @@ function Draft(props) {
     axios
       .get("/api/teams/" + onClock)
       .then((team) => {
-        setAllowAdd(team.data.owner === props.auth.user._id);
+        setAllowAdd(team.data.owner === user.id);
       })
       .catch((err) => console.log(err));
   };
 
   function draftPlayer(player) {
-    console.log(player._id);
-
     const data = {
-      user_id: props.auth.user.id,
+      user_id: user.id,
     };
+
     axios
       .put("/api/drafts/" + id + "/draft/" + player._id, data)
       .then((res) => {
-        console.log(res);
+        console.log("res" + res);
         setRoundLen(res.data.round_len);
         setDraft(res.data);
         setRound(res.data.round);
@@ -52,37 +54,40 @@ function Draft(props) {
     setAutoDraft(false);
   }
   useEffect(() => {
-    axios
-      .get("/api/players/exist")
-      .then((res) => {
-        if (!res.data) {
-          axios.post("/api/players/refresh").then((res) => {
-            console.log("updated players");
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("Error from ShowLeagueList");
-      });
-    axios
-      .get("/api/drafts/" + id)
-      .then((res) => {
-        setRoundLen(res.data.round_len);
-        setDraft(res.data);
-        setRound(res.data.round);
-        setStart(res.data.clock_start);
-        setOnClock(res.data.on_clock);
-      })
-      .catch((err) => {
-        console.log("Error from League");
-      });
+    let interval = setInterval(() => {
+      axios
+        .get("/api/players/exist/")
+        .then((res) => {
+          if (!res.data) {
+            axios.post("/api/players/refresh").then((res) => {
+              console.log("updated players");
+            });
+          }
+        })
+        .catch((err) => {
+          console.log("Error from ShowLeagueList");
+        });
+      axios
+        .get("/api/drafts/" + id)
+        .then((res) => {
+          setRoundLen(res.data.round_len);
+          setDraft(res.data);
+          setRound(res.data.round);
+          setOnClock(res.data.on_clock);
+        })
+        .catch((err) => {
+          console.log("Error from League");
+        });
+    }, 1000);
+    return () => clearInterval(interval);
   }, [round, onClock, id]);
 
   return (
     <div className="draft">
       <h1>Draft is here</h1>
+      {round}
       <DraftBoard draft={draft} />
-
+      On Clock {onClock}
       <PlayerFeed
         drafted={draft.drafted}
         draftPlayer={draftPlayer}
@@ -93,13 +98,4 @@ function Draft(props) {
   );
 }
 
-Draft.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-};
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  errors: state.errors,
-});
-export default connect(mapStateToProps, { loginUser })(Draft);
+export default Draft;

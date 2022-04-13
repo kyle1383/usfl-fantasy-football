@@ -1,149 +1,158 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
-import classnames from "classnames";
-class Register extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
-      errors: {},
-    };
-  }
-  componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.goBack() || this.props.history.push("/dashboard");
-    }
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors,
-      });
-    }
-  }
-  onChange = (e) => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-  onSubmit = (e) => {
-    e.preventDefault();
-    const newUser = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2,
-    };
-    this.props.registerUser(newUser, this.props.history);
-  };
-  render() {
-    const { errors } = this.state;
+import React, { useState, useRef } from "react";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+import { isEmail } from "validator";
+import AuthService from "../../services/auth.service";
+import { useNavigate } from "react-router-dom";
+
+const required = (value) => {
+  if (!value) {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-            </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Register</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Already have an account? <Link to="/login">Log in</Link>
-              </p>
-            </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={classnames("", {
-                    invalid: errors.name,
-                  })}
-                />
-                <label htmlFor="name">Name</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email,
-                  })}
-                />
-                <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.email}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password,
-                  })}
-                />
-                <label htmlFor="password">Password</label>
-                <span className="red-text">{errors.password}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  id="password2"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password2,
-                  })}
-                />
-                <label htmlFor="password2">Confirm Password</label>
-                <span className="red-text">{errors.password2}</span>
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem",
-                  }}
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Sign up
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+      <div className="alert alert-danger" role="alert">
+        This field is required!
       </div>
     );
   }
-}
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
 };
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  errors: state.errors,
-});
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This is not a valid email.
+      </div>
+    );
+  }
+};
+const vusername = (value) => {
+  if (value.length < 3 || value.length > 20) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The username must be between 3 and 20 characters.
+      </div>
+    );
+  }
+};
+const vpassword = (value) => {
+  if (value.length < 6 || value.length > 40) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The password must be between 6 and 40 characters.
+      </div>
+    );
+  }
+};
+const Register = () => {
+  let navigate = useNavigate();
+  const form = useRef();
+  const checkBtn = useRef();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [successful, setSuccessful] = useState(false);
+  const [message, setMessage] = useState("");
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setMessage("");
+    setSuccessful(false);
+    form.current.validateAll();
+    if (checkBtn.current.context._errors.length === 0) {
+      AuthService.register(username, email, password)
+        .then((response) => {
+          setMessage(response.data.message);
+          setSuccessful(true);
+          navigate(-1);
+        })
+        .catch((error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setMessage(resMessage);
+          setSuccessful(false);
+          console.log("false+" + error);
+        });
+    }
+  };
+  return (
+    <div className="col-md-12">
+      <div className="card card-container">
+        <img
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="profile-img"
+          className="profile-img-card"
+        />
+        <Form onSubmit={handleRegister} ref={form}>
+          {!successful && (
+            <div>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  value={username}
+                  onChange={onChangeUsername}
+                  validations={[required, vusername]}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={email}
+                  onChange={onChangeEmail}
+                  validations={[required, validEmail]}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <Input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  validations={[required, vpassword]}
+                />
+              </div>
+              <div className="form-group">
+                <button className="btn btn-primary btn-block">Sign Up</button>
+              </div>
+            </div>
+          )}
+          {message && (
+            <div className="form-group">
+              <div
+                className={
+                  successful ? "alert alert-success" : "alert alert-danger"
+                }
+                role="alert"
+              >
+                {message}
+              </div>
+            </div>
+          )}
+          <CheckButton style={{ display: "none" }} ref={checkBtn} />
+        </Form>
+      </div>
+    </div>
+  );
+};
+export default Register;
