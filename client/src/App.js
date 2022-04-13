@@ -17,8 +17,11 @@ import axios from "axios";
 import RequireAuth from "./components/private-route/RequireAuth";
 
 const App = () => {
-  const API_URL = "http://localhost:5000";
-  axios.defaults.baseURL = API_URL;
+  if (process.env.NODE_ENV !== "production") {
+    const API_URL = "http://localhost:5000";
+    axios.defaults.baseURL = API_URL;
+  }
+
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
     const user = AuthService.getCurrentUser();
