@@ -15,63 +15,16 @@
  * The draft element will be subscribed to this filed such that it will switch whenever the DB has changed
  */
 import React, { useState, useEffect } from "react";
-import "../../App.css";
-import axios from "axios";
+
 import PlayerHeading from "./PlayerHeading";
 import List from "@mui/material/List";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { grey } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import "../../../styles/ActionBoard.css";
 
-const Puller = styled(Box)(({ theme }) => ({
-  width: 30,
-  height: 6,
-  backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
-  borderRadius: 3,
-  position: "absolute",
-  top: 8,
-  left: "calc(50% - 15px)",
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
-}));
-const drawerBleeding = 56;
-
-function PlayerFeed({ drafted, draftPlayer, enabled, autodraft }) {
-  let [players, setPlayers] = useState([]);
-  const [open, setOpen] = React.useState(false);
-
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
-
-  useEffect(() => {
-    if (drafted) {
-      axios
-        .get("/api/players")
-        .then((res) => {
-          const offensive_pos = ["QB", "WR", "RB", "TE", "K", "FB"];
-          let undrafted = res.data.filter(function (player, index, arr) {
-            return !drafted.includes(player._id);
-          });
-
-          let offensive = undrafted.filter(function (player, index, arr) {
-            return offensive_pos.includes(player.position);
-          });
-          setPlayers(offensive);
-        })
-        .catch((err) => {
-          console.log("Error from ShowLeagueList" + err);
-        });
-
-      if (autodraft) {
-        draftPlayer(players[0]);
-      }
-    }
-  }, [drafted, autodraft]);
-
+function PlayerFeed({ players, draftPlayer, enabled }) {
   const playerFeed = players.map((player, k) => (
     <PlayerHeading
       player={player}

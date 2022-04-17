@@ -25,6 +25,7 @@ const DraftSchema = new Schema({
   round: {
     type: Number,
   },
+  //Must be team as sometimes there are unowned teams
   on_clock: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",

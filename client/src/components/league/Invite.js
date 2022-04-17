@@ -3,37 +3,29 @@ import "../../App.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
 import { useParams, useNavigate } from "react-router-dom";
-import UserService from "../../services/user.service";
 
 /**
  * INVITE COMPONENT
  * 1st checks if you are logged in. If not, requests a login.
  */
 function Invite() {
-  const [user, setUser] = useState([]);
+  const user = AuthService.getCurrentUser();
   const [league, setLeague] = useState();
   let { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    UserService.getUserBoard().then(
-      (response) => {
-        console.log(response.data);
-        setUser(AuthService.getCurrentUser());
-        console.log("a");
-      },
-      (error) => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setLeague(_content);
-        console.log("b");
-        navigate("/login");
-      }
-    );
+    if (!AuthService.isLoggedIn()) {
+      navigate("/login");
+    }
+    axios
+      .get("/api/leagues/" + id)
+      .then((res) => {
+        setLeague(res.data);
+      })
+      .catch((err) => {
+        console.log("Error from League");
+      });
   }, []);
 
   //functions
@@ -41,11 +33,11 @@ function Invite() {
     const data = {
       user: user.id,
     };
+    console.log(data);
 
     axios
       .put("/api/leagues/join/" + id, data)
       .then((res) => {
-        setUser(user);
         navigate("/dashboard");
       })
       .catch((err) => {
@@ -56,7 +48,6 @@ function Invite() {
 
   let LeagueItem = (
     <div>
-      {console.log(user)}
       <h2>Hi {user.username}, you have been invited to a league</h2>
       <table>
         <tbody>

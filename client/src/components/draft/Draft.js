@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-import "../../App.css";
 import axios from "axios";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+
 import AuthService from "../../services/auth.service";
-import PlayerFeed from "./PlayerFeed";
+import PlayerFeed from "./actionboard/PlayerFeed";
 import Timer from "./timer/Timer";
 import DraftBoard from "../draft/draftboard/DraftBoard";
 import { useParams } from "react-router-dom";
+import ActionBoard from "./actionboard/ActionBoard";
+
+import "../../styles/Draft.css";
 
 function Draft() {
   const [round, setRound] = useState(0);
   const [roundLen, setRoundLen] = useState();
-  const [clockStart, setStart] = useState();
-  const [time, setTime] = useState();
+  const [rounds, setRounds] = useState();
   const [onClock, _setOnClock] = useState();
   const [draft, setDraft] = useState([]);
+
+  const [teams, _setTeams] = useState([]);
   const [allowAdd, setAllowAdd] = useState([false]);
-  const [autoDraft, setAutoDraft] = useState(false);
   const user = AuthService.getCurrentUser();
-  const [update, setUpdate] = useState(1);
+
   let { id } = useParams();
 
+  //functions
   const setOnClock = (onClock) => {
     _setOnClock(onClock);
     axios
@@ -32,6 +34,45 @@ function Draft() {
       .catch((err) => console.log(err));
   };
 
+  const setTeams = (team_ids) => {
+    let newTeams = [];
+
+    let promises = [];
+
+    team_ids.map((team_id) => {
+      promises.push(
+        axios.get("/api/teams/" + team_id).then((response) => {
+          newTeams.push(response.data);
+        })
+      );
+    });
+
+    Promise.allSettled(promises).then((results) => {
+      results.forEach((result) => console.log(/*result.status*/));
+
+      newTeams = orderedTeams(newTeams, team_ids);
+
+      _setTeams(newTeams);
+    });
+  };
+
+  function start() {
+    axios
+      .post("/api/drafts/start/" + id)
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  const orderedTeams = (teams, order) => {
+    let orderedTeams = [];
+
+    order.map((team_id) => {
+      orderedTeams.push(teams.find((team) => team._id === team_id));
+    });
+    return orderedTeams;
+  };
+
   function draftPlayer(player) {
     const data = {
       user_id: user.id,
@@ -40,40 +81,31 @@ function Draft() {
     axios
       .put("/api/drafts/" + id + "/draft/" + player._id, data)
       .then((res) => {
-        console.log("res" + res);
         setRoundLen(res.data.round_len);
-        setDraft(res.data);
-        setRound(res.data.round);
-
-        setStart(res.data.clock_start);
         setOnClock(res.data.on_clock);
+        setDraft(res.data);
+        setTeams(res.data.teams);
+        setRound(res.data.round);
+        setRounds(res.data.rounds);
       })
       .catch((err) => {
         console.log("Error from League");
       });
-    setAutoDraft(false);
   }
+
   useEffect(() => {
     let interval = setInterval(() => {
       axios
-        .get("/api/players/exist/")
-        .then((res) => {
-          if (!res.data) {
-            axios.post("/api/players/refresh").then((res) => {
-              console.log("updated players");
-            });
-          }
-        })
-        .catch((err) => {
-          console.log("Error from ShowLeagueList");
-        });
-      axios
         .get("/api/drafts/" + id)
         .then((res) => {
-          setRoundLen(res.data.round_len);
-          setDraft(res.data);
           setRound(res.data.round);
           setOnClock(res.data.on_clock);
+          setDraft(res.data);
+
+          setRounds(res.data.rounds);
+          setRoundLen(res.data.round_len);
+
+          setTeams(res.data.teams);
         })
         .catch((err) => {
           console.log("Error from League");
@@ -82,17 +114,21 @@ function Draft() {
     return () => clearInterval(interval);
   }, [round, onClock, id]);
 
+  //memoization
+
   return (
     <div className="draft">
-      <h1>Draft is here</h1>
-      {round}
-      <DraftBoard draft={draft} />
-      On Clock {onClock}
-      <PlayerFeed
+      <Timer round={round} roundLen={roundLen} />
+      <button className="start-draft" onClick={() => start()}>
+        Start Draft
+      </button>
+
+      <DraftBoard teams={teams} rounds={rounds} />
+
+      <ActionBoard
         drafted={draft.drafted}
         draftPlayer={draftPlayer}
-        enabled={allowAdd}
-        autodraft={autoDraft}
+        allowAdd={allowAdd}
       />
     </div>
   );

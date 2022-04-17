@@ -1,0 +1,65 @@
+.draftboard {
+  display: flex;
+  position: fixed;
+  top: 5%;
+  height: 50%;
+  left: 50%;
+  width: 100%;
+  font-family: "Roboto";
+  transform: translate(-50%);
+  overflow: scroll;
+  justify-content: center;
+}
+.team-column {
+  width: 30vw;
+  padding: 2px;
+}
+
+.draftboard::-webkit-scrollbar {
+  display: none;
+}
+
+.selection {
+  border-radius: 10px;
+  margin: 2px;
+  height: 61px;
+  width: 29vw;
+  display: flex;
+}
+
+.selection-content {
+  padding: 5px;
+  width: 100%;
+}
+/*column*/
+.team-name {
+  text-align: center;
+  text-transform: capitalize;
+}
+/*Top section */
+.information {
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+}
+.information p {
+  margin: 0;
+}
+.pos-team,
+.pick-number {
+  display: flex;
+  font-size: 0.7rem;
+  color: #343a40;
+}
+
+/*name section*/
+.pick-name {
+  color: #212529;
+}
+.pick-text {
+  color: #343a40;
+}
+/* Only pick */
+.information.unpicked {
+  justify-content: flex-end;
+}

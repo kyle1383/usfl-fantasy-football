@@ -1,11 +1,35 @@
+:root {
+  --primary: #fb8500;
+  --accent-1: #ffb703;
+  --accent-2: #023047;
+  --accent-3: #04f06a;
+  --accent-4: #63d2ff;
+
+  --RB-color: #e76f51;
+  --WR-color: #f4a261;
+  --WB-color: #2a9d8f;
+  --TE-color: #264653;
+  --K-color: #e9c46a;
+}
+
 .App {
   text-align: center;
+  font-family: "Roboto";
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+}
+.title {
+  text-decoration: none;
 }
 
 .App-header {
@@ -76,10 +100,7 @@ p {
 }
 
 /*actual*/
-.player-feed {
-  display: flex;
-  justify-content: center;
-}
+
 .player-heading {
   white-space: nowrap;
 }

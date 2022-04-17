@@ -1,0 +1,38 @@
+.player-heading {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.add-player {
+  background-color: #0466c8;
+  padding: 12px 20px;
+  border-style: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 900;
+  margin-right: 20px;
+  box-shadow: #52504e 1px 1px 5px;
+  transition: 0.2s;
+}
+.add-player:hover {
+  box-shadow: #52504e 0px 0px 2px;
+}
+
+.heading-name {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.heading-team-pos {
+  margin: 0;
+  color: gray;
+}
+
+.player-details-button {
+  background-color: transparent;
+  border-style: none;
+  text-align: left;
+  height: 100%;
+}

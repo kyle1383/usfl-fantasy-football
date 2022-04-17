@@ -17,7 +17,6 @@ leagueRouter.get("/test", (req, res) => res.send("league route testing!"));
 // @description Get all leagues
 // @access Public
 leagueRouter.get("/", (req, res) => {
-  console.log("made it");
   League.find()
     .then((leagues) => res.json(leagues))
     .catch((err) =>
@@ -107,13 +106,15 @@ leagueRouter.put("/:id", (req, res) => {
 // @access Public
 leagueRouter.put("/join/:id", (req, res) => {
   const league_id = req.params.id;
-
-  League.findOne({ _id: league_id }).then((league) => {
+  League.findById(league_id).then((league) => {
     const user_id = req.body.user;
     if (league.managers.length < league.size) {
       User.findOne({ _id: user_id }).then((user) => {
+        index = league.managers.length;
         league.managers.push(user);
-        index = 1;
+        console.log(league.managers);
+        console.log("index");
+        console.log(index);
 
         Team.findById(league.teams[index]).then((team) => {
           team.owner = user;

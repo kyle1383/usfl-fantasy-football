@@ -1,0 +1,61 @@
+.actionboard {
+  position: fixed;
+  top: 50%;
+  overflow-y: scroll;
+  height: 100%;
+  left: 50%;
+  transform: translate(-50%);
+  box-shadow: var(--primary) 0px -4px;
+  border-radius: 20px;
+  width: 100%;
+  background: #fff;
+}
+
+.player-feed {
+  display: flex;
+  justify-content: center;
+}
+
+/*position filters */
+.position-filters {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5rem;
+}
+.position-filter {
+  border: 2px solid lightgray;
+  border-radius: 50%;
+  background-color: transparent;
+  width: 20px;
+  text-align: center;
+  height: 20px;
+  position: relative;
+  padding: 15px;
+}
+.position-filter p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+}
+.selected-All {
+  border-color: var(--primary);
+}
+.selected-RB {
+  border-color: var(--RB-color);
+}
+.selected-WR {
+  border-color: var(--WR-color);
+}
+.selected-QB {
+  border-color: var(--WB-color);
+}
+.selected-TE {
+  border-color: var(--TE-color);
+}
+.selected-K {
+  border-color: var(--K-color);
+}

@@ -15,6 +15,8 @@ import Nav from "./components/layout/Nav";
 import CreateLeague from "./components/league/CreateLeague";
 import axios from "axios";
 import RequireAuth from "./components/private-route/RequireAuth";
+import { Fragment } from "react/cjs/react.production.min";
+import "./styles/Fonts.css";
 
 const App = () => {
   if (process.env.NODE_ENV !== "production") {
@@ -36,6 +38,7 @@ const App = () => {
     <div>
       <Nav />
       <Routes>
+        <Route path="/draft/:id" element={<Draft />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -43,11 +46,9 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/user" element={<BoardUser />} />
         <Route exact path="/leagues/:id" element={<League />} />
-        <Route path="/draft/:id" element={<Draft />} />
+
         <Route path="/new-league" element={<CreateLeague />} />
-
         <Route exact path="/leagues/:id/invite" element={<Invite />} />
-
         <Route exact path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
