@@ -14,10 +14,6 @@ const LeagueSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  size: {
-    type: Number,
-    required: true,
-  },
   managers: {
     type: [
       {
@@ -42,9 +38,48 @@ const LeagueSchema = new Schema({
       ref: "Draft",
     },
   ],
+  size: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,
+  },
+  settings: {
+    roster_spots: {
+      QB: {
+        type: Number,
+        required: true,
+      },
+      RB: {
+        type: Number,
+        required: true,
+      },
+      WR: {
+        type: Number,
+        required: true,
+      },
+      TE: {
+        type: Number,
+        required: true,
+      },
+      K: {
+        type: Number,
+        required: true,
+      },
+      FLEX: {
+        type: Number,
+        required: true,
+      },
+      BENCH: {
+        type: Number,
+        required: true,
+      },
+    },
+    roster_size: {
+      type: Number,
+    },
   },
 });
 

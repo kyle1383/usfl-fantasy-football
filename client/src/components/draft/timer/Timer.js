@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/Timer.css";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import AuthService from "../../../services/auth.service";
 /**
  *
  * Timer
@@ -8,9 +10,11 @@ import axios from "axios";
  *
  */
 
-function Timer({ round, roundLen, clockStart, status }) {
+function Timer({ round, roundLen, clockStart, status, owner }) {
   let timePassed = 0;
+  const user = AuthService.getCurrentUser();
   const [seconds, setSeconds] = useState(9);
+  let { id } = useParams();
 
   useEffect(() => {
     if (!seconds) setSeconds(roundLen);
@@ -49,9 +53,35 @@ function Timer({ round, roundLen, clockStart, status }) {
 
     return time;
   };
-  const TimeDisplay = () => {
-    return <div className="time-display">{secondsToMinutes(seconds)}</div>;
+  const StartButton = () => {
+    if (owner == user.id) {
+      return (
+        <button className="start-draft" onClick={() => start()}>
+          Start
+        </button>
+      );
+    } else {
+      return null;
+    }
   };
+  const TimeDisplay = () => {
+    if (status == "ACTIVE") {
+      return <div className="time-display">{secondsToMinutes(seconds)}</div>;
+    } else if (status == "PENDING") {
+      return <StartButton />;
+    } else {
+      return null;
+    }
+  };
+
+  function start() {
+    axios
+      .post("/api/drafts/start/" + id)
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div className="timer">
@@ -61,3 +91,8 @@ function Timer({ round, roundLen, clockStart, status }) {
 }
 
 export default React.memo(Timer);
+/*
+
+
+
+*/

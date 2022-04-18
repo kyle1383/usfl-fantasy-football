@@ -1,0 +1,21 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  align-items: center;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  text-decoration: none;
+  color: var(--accent-1);
+}
+
+a {
+  text-decoration: none;
+}
+
+.cta a {
+  color: white;
+}

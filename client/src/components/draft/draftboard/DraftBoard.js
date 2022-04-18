@@ -4,7 +4,7 @@ import "../../../styles/DraftBoard.css";
 import TeamColumn from "./TeamColumn";
 import axios from "axios";
 
-function DraftBoard({ teams, rounds }) {
+function DraftBoard({ teams, rounds, boardView, rosterSpots }) {
   /*useEffect(() => {
    
   }, [team_id]);*/
@@ -14,9 +14,11 @@ function DraftBoard({ teams, rounds }) {
     teamColumns.push(
       <TeamColumn
         team={team}
-        players={team.players}
+        player_ids={team.players}
         index={index}
         rounds={rounds}
+        boardView={boardView}
+        rosterSpots={rosterSpots}
         key={k}
       />
     );

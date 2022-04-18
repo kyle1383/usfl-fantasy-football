@@ -39,6 +39,36 @@ const DraftSchema = new Schema({
       ref: "Team",
     },
   ],
+  roster_spots: {
+    QB: {
+      type: Number,
+      required: true,
+    },
+    RB: {
+      type: Number,
+      required: true,
+    },
+    WR: {
+      type: Number,
+      required: true,
+    },
+    TE: {
+      type: Number,
+      required: true,
+    },
+    K: {
+      type: Number,
+      required: true,
+    },
+    FLEX: {
+      type: Number,
+      required: true,
+    },
+    BENCH: {
+      type: Number,
+      required: true,
+    },
+  },
   status: {
     type: String,
     enum: ["ACTIVE", "COMPLETE", "PENDING", "PAUSED"],

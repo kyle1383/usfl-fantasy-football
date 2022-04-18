@@ -24,11 +24,6 @@
   pointer-events: none;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 2rem;
-}
 .title {
   text-decoration: none;
 }

@@ -56,6 +56,18 @@ leagueRouter.post("/", (req, res) => {
       newTeam.save().catch((err) => console.log(err));
       teams.push(newTeam);
     }
+    const settings = {
+      roster_spots: {
+        QB: 1,
+        RB: 2,
+        WR: 2,
+        TE: 1,
+        K: 1,
+        FLEX: 1,
+        BENCH: 5,
+      },
+      roster_size: 13,
+    };
     const newLeague = new League({
       name: req.body.name,
       owner: req.body.owner,
@@ -63,17 +75,19 @@ leagueRouter.post("/", (req, res) => {
       managers: [user],
       teams: teams,
       drafts: [],
+      settings,
     });
 
     const newDraft = new Draft({
       owner: user,
       league: newLeague,
-      rounds: 15,
+      rounds: 13,
       round: 1,
       round_len: 120,
       on_clock: teams[0],
       order: [user],
       teams: teams,
+      roster_spots: settings.roster_spots,
       status: "PENDING",
     });
     newDraft.save().catch((err) => console.log(err));

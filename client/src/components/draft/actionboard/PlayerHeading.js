@@ -29,7 +29,7 @@ function PlayerHeading({
   return (
     <div className="player-heading">
       <button
-        className="add-player"
+        className="btn-1"
         disabled={!enabled}
         onClick={() => draftPlayer(player)}
       >

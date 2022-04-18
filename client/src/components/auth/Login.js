@@ -56,30 +56,25 @@ const Login = () => {
     }
   };
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
+    <div className="login">
+      <div className="welcome">Welcome to USFL Fantasy</div>
+      <div className="form-box">
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
             <Input
               type="text"
-              className="form-control"
+              placeholder="username"
+              className="form-control name"
               name="username"
               value={username}
               onChange={onChangeUsername}
               validations={[required]}
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+
             <Input
               type="password"
-              className="form-control"
+              placeholder="password"
+              className="form-control password"
               name="password"
               value={password}
               onChange={onChangePassword}
@@ -87,7 +82,7 @@ const Login = () => {
             />
           </div>
           <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
+            <button className="btn btn-submit " disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
@@ -97,9 +92,9 @@ const Login = () => {
           <div className="don't have an account">
             Dont have an account?
             <Link to={"/register"} className="nav-link">
+              {" "}
               Register
             </Link>
-            now
           </div>
 
           {message && (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 /**
  *
@@ -10,10 +10,11 @@ import { useParams } from "react-router-dom";
  */
 function UpdateDraft() {
   //state
-  let [rosterSize, setRosterSize] = useState(15);
+  let [rosterSize, setRosterSize] = useState(13);
   let [roundLength, setRoundLength] = useState(120);
   let [order, setOrder] = useState([]);
   let { id } = useParams();
+  let navigate = useNavigate();
   //let [usernames, setUserNames] = useState([]);
   //Life Cycle Functions
   useEffect(() => {
@@ -41,6 +42,7 @@ function UpdateDraft() {
       .put("/api/drafts/" + id, data)
       .then((res) => {
         console.log(res);
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.log("Error updating draft!");

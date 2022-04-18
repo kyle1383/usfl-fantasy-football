@@ -5,22 +5,15 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
-function DraftItem({ player_id, round, index }) {
-  const [player, setPlayer] = useState();
-  useEffect(() => {
-    if (player_id) {
-      axios
-        .get("/api/players/" + player_id)
-        .then((resp) => {
-          if (typeof resp.data !== "undefined") {
-            setPlayer(resp.data);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [player_id]);
-
+function DraftItem({ player, round, index, boardView, draftSlot }) {
   //sub componenets
+  const PickInfo = () => {
+    if (boardView == "draft") {
+      return round + 1 + "." + index;
+    } else {
+      return draftSlot;
+    }
+  };
   const Selection = () => {
     if (player) {
       return (
@@ -35,8 +28,8 @@ function DraftItem({ player_id, round, index }) {
               <p className="pos-team">
                 {player.position}-{player.team}
               </p>
-              <p className="pick-number">
-                {round + 1}.{index}
+              <p className="pick-info">
+                <PickInfo />
               </p>
             </div>
             <div className="pick-firstname">{player.first_name}</div>
@@ -54,8 +47,8 @@ function DraftItem({ player_id, round, index }) {
         >
           <div className="selection-content">
             <div className="information unpicked">
-              <p className="pick-number">
-                {round + 1}.{index}
+              <p className="pick-info">
+                <PickInfo />
               </p>
             </div>
           </div>

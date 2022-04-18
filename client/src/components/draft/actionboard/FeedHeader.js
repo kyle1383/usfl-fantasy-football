@@ -13,28 +13,31 @@ function FeedHeader({
   roundLen,
   clockStart,
   status,
+  boardView,
+  toggleBoard,
   owner,
 }) {
   let { id } = useParams();
   const user = AuthService.getCurrentUser();
-  function start() {
-    axios
-      .post("/api/drafts/start/" + id)
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  const StartButton = () => {
-    if (owner == user.id) {
-      return (
-        <button className="start-draft" onClick={() => start()}>
-          Start
-        </button>
-      );
-    } else {
-      return null;
-    }
+  const logoOptions = {
+    draft: ["1.1", "1.2", "1.4", "1.3"],
+    team: ["QB", "QB", "RB", "RB"],
+  };
+
+  const BoardToggle = () => {
+    let logoText = logoOptions[boardView];
+    return (
+      <div className="board-toggle" onClick={() => toggleBoard()}>
+        <div className="board-toggle-row">
+          <div className="board-toggle-pick">{logoText[0]}</div>
+          <div className="board-toggle-pick">{logoText[1]}</div>
+        </div>
+        <div className="board-toggle-row">
+          <div className="board-toggle-pick">{logoText[2]}</div>
+          <div className="board-toggle-pick">{logoText[3]}</div>
+        </div>
+      </div>
+    );
   };
   return (
     <div className="feed-header">
@@ -44,6 +47,7 @@ function FeedHeader({
           roundLen={roundLen}
           clockStart={clockStart}
           status={status}
+          owner={owner}
         />
       </div>
 
@@ -60,11 +64,10 @@ function FeedHeader({
         <PositionFilter position="K" selected={select} setSelect={setSelect} />
       </div>
       <div className="feed-header-side">
-        {" "}
-        <StartButton />
+        <BoardToggle />
       </div>
     </div>
   );
 }
 
-export default FeedHeader;
+export default React.memo(FeedHeader);

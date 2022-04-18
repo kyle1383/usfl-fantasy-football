@@ -15,6 +15,8 @@ function ActionBoard({
   roundLen,
   clockStart,
   status,
+  boardView,
+  toggleBoard,
   owner,
 }) {
   const [position, setPosition] = useState("All");
@@ -133,6 +135,8 @@ function ActionBoard({
         roundLen={roundLen}
         clockStart={clockStart}
         status={status}
+        boardView={boardView}
+        toggleBoard={toggleBoard}
         owner={owner}
       />
       <PlayerFeed

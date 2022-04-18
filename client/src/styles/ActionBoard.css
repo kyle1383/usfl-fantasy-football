@@ -36,6 +36,25 @@
   flex: 1 0 10%;
   text-align: center;
 }
+
+.board-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20%;
+}
+.board-toggle-row {
+  display: flex;
+}
+.board-toggle-pick {
+  flex: 20%;
+  font-size: 0.5rem;
+  padding: 2px;
+  color: lightslategray;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+}
 @media only screen and (min-width: 500px) {
   .feed-header {
     width: 300px;

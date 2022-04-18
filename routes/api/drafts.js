@@ -87,15 +87,22 @@ draftRouter.put("/:id/draft/:player_id", (req, res) => {
 //timer functions
 
 function setTimer(draft, id) {
-  console.log("here");
-  setTimeout(
-    check,
-    draft.round_len * 1000,
-    draft.drafted,
-    draft.clock_start,
-    draft.round_len,
-    id
-  );
+  if (
+    draft.round == draft.rounds &&
+    draft.on_clock == draft.teams[draft.teams.length - 1]
+  ) {
+    draft.status == "COMPLETE";
+    draft.save();
+  } else {
+    setTimeout(
+      check,
+      draft.round_len * 1000,
+      draft.drafted,
+      draft.clock_start,
+      draft.round_len,
+      id
+    );
+  }
 }
 function check(drafted, started, round_len, draft_id) {
   console.log("checked");

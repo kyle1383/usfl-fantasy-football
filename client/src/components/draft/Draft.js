@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import AuthService from "../../services/auth.service";
-import PlayerFeed from "./actionboard/PlayerFeed";
 
 import DraftBoard from "../draft/draftboard/DraftBoard";
 import { useParams } from "react-router-dom";
@@ -22,11 +21,14 @@ function Draft() {
   const [teams, _setTeams] = useState([]);
   const [allowAdd, setAllowAdd] = useState([false]);
   const [status, setStatus] = useState("predraft");
+  const [boardView, setBoardView] = useState("draft");
+  const [rosterSpots, setRosterSpots] = useState([]);
   const user = AuthService.getCurrentUser();
 
   let { id } = useParams();
 
   //functions
+
   const setOnClock = (onClock) => {
     _setOnClock(onClock);
     axios
@@ -36,7 +38,10 @@ function Draft() {
       })
       .catch((err) => console.log(err));
   };
-
+  const toggleBoard = () => {
+    if (boardView == "draft") setBoardView("team");
+    if (boardView == "team") setBoardView("draft");
+  };
   const setTeams = (team_ids) => {
     let newTeams = [];
 
@@ -102,13 +107,14 @@ function Draft() {
           setClockStart(res.data.clock_start);
           setRounds(res.data.rounds);
           setRoundLen(res.data.round_len);
-
+          setRosterSpots(res.data.roster_spots);
           setTeams(res.data.teams);
         })
         .catch((err) => {
           console.log("Error from League");
         });
     }, 1000);
+
     return () => clearInterval(interval);
   }, [round, onClock, id]);
 
@@ -116,8 +122,12 @@ function Draft() {
 
   return (
     <div className="draft">
-      <DraftBoard teams={teams} rounds={rounds} />
-
+      <DraftBoard
+        teams={teams}
+        rounds={rounds}
+        boardView={boardView}
+        rosterSpots={rosterSpots}
+      />
       <ActionBoard
         drafted={draft.drafted}
         draftPlayer={draftPlayer}
@@ -127,6 +137,8 @@ function Draft() {
         roundLen={roundLen}
         clockStart={clockStart}
         status={status}
+        boardView={boardView}
+        toggleBoard={toggleBoard}
         owner={draft.owner}
       />
       <PlayerDialog player={playerDialog} />
@@ -134,4 +146,4 @@ function Draft() {
   );
 }
 
-export default Draft;
+export default React.memo(Draft);

@@ -1,35 +1,25 @@
 import React, { useState, useEffect } from "react";
-import UserService from "../services/user.service";
+
 import axios from "axios";
-import Button from "@mui/material/Button";
+
+import { Link } from "react-router-dom";
 const Home = () => {
-  const [content, setContent] = useState("");
   function refresh() {
     axios.post("/api/players/refresh");
   }
-  useEffect(() => {
-    UserService.getPublicContent().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-        setContent(_content);
-      }
-    );
-  }, []);
+  useEffect(() => {}, []);
   return (
-    <div className="container">
-      <header className="jumbotron">
-        <h3>{content}</h3>
-      </header>
-      <Button variant="contained" type="button" onClick={() => refresh()}>
-        Update Players
-      </Button>
+    <div className="landing page">
+      <div className="nav-item">
+        <Link to={"/login"} className="nav-link">
+          Login
+        </Link>
+      </div>
     </div>
   );
 };
 export default Home;
+/*
+<Button variant="contained" type="button" onClick={() => refresh()}>
+Update Players
+</Button>*/

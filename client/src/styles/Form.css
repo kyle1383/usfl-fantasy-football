@@ -1,0 +1,48 @@
+.form-box {
+  text-align: left;
+  font-family: "Roboto";
+  font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.form-group {
+  margin: 1rem 0;
+}
+form {
+  text-align: left;
+}
+
+input {
+  padding: 12px 0px;
+  border-style: none;
+  font-size: 1rem;
+  transition: 0.2s;
+  width: 95%;
+  padding-left: 5%;
+}
+input.name {
+  border: solid;
+  border-radius: 10px 10px 0 0;
+}
+input.password {
+  border: solid;
+  border-top: none;
+  border-radius: 0px 0px 10px 10px;
+}
+input.email {
+  border: solid;
+  border-top: none;
+}
+
+.login,
+.register {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5rem;
+}
+.welcome {
+  font-family: "Roboto";
+  font-size: 1.5rem;
+  font-weight: 800;
+}

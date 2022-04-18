@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
+import "./styles/Buttons.css";
+import "./styles/Form.css";
 import AuthService from "./services/auth.service";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -13,6 +15,7 @@ import Invite from "./components/league/Invite";
 import Draft from "./components/draft/Draft";
 import Nav from "./components/layout/Nav";
 import CreateLeague from "./components/league/CreateLeague";
+import UpdateDraft from "./components/draft/UpdateDraft";
 import axios from "axios";
 import RequireAuth from "./components/private-route/RequireAuth";
 import { Fragment } from "react/cjs/react.production.min";
@@ -39,6 +42,7 @@ const App = () => {
       <Nav />
       <Routes>
         <Route path="/draft/:id" element={<Draft />} />
+        <Route path="/draft-settings/:id" element={<UpdateDraft />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />

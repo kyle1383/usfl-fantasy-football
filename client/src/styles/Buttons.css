@@ -1,0 +1,49 @@
+.btn-1 {
+  background-color: #0466c8;
+  padding: 12px 20px;
+  border-style: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 900;
+
+  box-shadow: #52504e 1px 1px 5px;
+  transition: 0.2s;
+}
+.btn-1:hover {
+  box-shadow: #52504e 0px 0px 2px;
+}
+.btn-1:disabled {
+  filter: brightness(70%);
+  background-color: #adb5bd;
+}
+
+.cta {
+  background-color: #0466c8;
+  padding: 12px 20px;
+  border-style: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 900;
+
+  box-shadow: #52504e 1px 1px 5px;
+  transition: 0.2s;
+}
+.cta:hover {
+  box-shadow: #52504e 0px 0px 2px;
+}
+
+.btn-submit {
+  background-color: #0466c8;
+  padding: 12px 20px;
+  border-style: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 900;
+  height: 46px;
+  box-shadow: #52504e 1px 1px 5px;
+  transition: 0.2s;
+  width: 100%;
+}
