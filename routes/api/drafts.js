@@ -9,6 +9,7 @@ const Draft = require("../../models/Draft");
 const Team = require("../../models/Team");
 const Player = require("../../models/Player");
 const League = require("../../models/League");
+const offensive_pos = ["QB", "WR", "RB", "TE", "K", "FB"];
 
 draftRouter.post("/refresh", (req, res) => {
   const newDraft = new Draft({
@@ -30,54 +31,22 @@ draftRouter.post("/start/:id", (req, res) => {
 
   Draft.findById(req.params.id)
     .then((draft) => {
-      draft.clock_start = Date.now();
-      draft.save();
-      setTimeout(
-        check,
-        10000, //draft.round_len * 1000,
-        draft.drafted[draft.drafted.length - 1],
-        draft.clock_start,
-        draft.round_len,
-        req.params.id
-      );
+      if (draft.status == "PENDING" || draft.status == "PAUSED") {
+        draft.clock_start = Date.now();
+        draft.status = "ACTIVE";
+        draft.save();
+        setTimer(draft, req.params.id);
+      } else if (draft.status == "ACTIVE") {
+        console.log("already started");
+        draft.status = "PENDING";
+        draft.save();
+      }
     })
     .catch((err) => {
       console.log("error" + err);
     });
 });
 
-function check(drafted, started, round_len, draft_id) {
-  const currentTime = new Date().getTime();
-  Draft.findById(draft_id)
-    .then((draft) => {
-      const clockStart = draft.clock_start;
-      const timePassed = (currentTime - clockStart.getTime()) / 1000;
-      console.log(timePassed);
-      console.log(clockStart.getTime());
-      console.log(currentTime);
-      if (+timePassed > +10) {
-        //30 should be round.len
-        console.log("autodraft");
-      } else {
-        console.log("A Player was successfully drafted");
-      }
-    })
-    .catch((err) => {
-      console.log("error" + err);
-    });
-  //autoDraft
-}
-/*
-draftRouter.post("/time/:id", (req, res) => {
-  Draft.findById(req.params.id)
-    .then((draft) => {
-      res.json(draft);
-    })
-    .catch((err) =>
-      res.status(404).json({ noleaguesfound: "No Drafts found" })
-    );
-});
-*/
 draftRouter.get("/:id", (req, res) => {
   Draft.findById(req.params.id)
     .then((draft) => {
@@ -109,16 +78,72 @@ draftRouter.put("/:id", (req, res) => {
 });
 
 draftRouter.put("/:id/draft/:player_id", (req, res) => {
+  let draft_id = req.params.id;
+  let player_id = req.params.player_id;
+  let user_id = req.body.user_id;
+  draft(draft_id, player_id, user_id, res);
+});
+
+//timer functions
+
+function setTimer(draft, id) {
+  console.log("here");
+  setTimeout(
+    check,
+    draft.round_len * 1000,
+    draft.drafted,
+    draft.clock_start,
+    draft.round_len,
+    id
+  );
+}
+function check(drafted, started, round_len, draft_id) {
+  console.log("checked");
+  const currentTime = new Date().getTime();
+  Draft.findById(draft_id)
+    .then((draft) => {
+      const clockStart = draft.clock_start;
+      const timePassed = (currentTime - clockStart.getTime()) / 1000;
+      if (timePassed > round_len) {
+        Player.find().then((players) => {
+          let undrafted = players.filter(function (player, index, arr) {
+            return !drafted.includes(player._id);
+          });
+          let offensive = undrafted.filter(function (player, index, arr) {
+            return offensive_pos.includes(player.position);
+          });
+          let player = offensive[Math.floor(Math.random() * offensive.length)];
+          let player_id = player._id;
+
+          //get user id from on clock;
+          Team.findById(draft.on_clock).then((team) => {
+            console.log(draft_id);
+            console.log(player_id);
+            console.log(team.owner);
+
+            autodraft(draft_id, player_id, team.owner);
+          });
+        });
+      } else {
+        console.log("A Player was successfully drafted");
+      }
+    })
+    .catch((err) => {
+      console.log("error" + err);
+    });
+  //autoDraft
+}
+
+function autodraft(draft_id, player_id, user_id) {
   let response;
-  Draft.findById(req.params.id)
+  Draft.findById(draft_id)
     .then((draft) => {
       Team.findById(draft.on_clock).then((team) => {
-        if (req.body.user_id != team.owner) {
+        if (user_id != team.owner) {
           response = "You are not on the clock";
         }
-        Player.findById(req.params.player_id).then((player) => {
+        Player.findById(player_id).then((player) => {
           //team updates
-
           team.players.push(player);
 
           if (team.players.length != draft.round) {
@@ -141,13 +166,59 @@ draftRouter.put("/:id/draft/:player_id", (req, res) => {
             draft.on_clock = draft.teams[order_index + 1];
           }
           draft.clock_start = Date.now();
+          if (response) console.log(response);
+          team.save();
+          draft.save();
+          setTimer(draft, draft_id);
+        });
+      });
+    })
+    .catch((err) => {
+      console.log("error" + err);
+    });
+}
+function draft(draft_id, player_id, user_id, res) {
+  let response;
+  Draft.findById(draft_id)
+    .then((draft) => {
+      Team.findById(draft.on_clock).then((team) => {
+        if (user_id != team.owner) {
+          response = "You are not on the clock";
+        }
+        Player.findById(player_id).then((player) => {
+          //team updates
+          team.players.push(player);
 
-          if (response) {
-            res.json(response);
+          if (team.players.length != draft.round) {
+            response = "You already drafted this round";
+          }
+          //draft updates
+          draft.drafted.push(player);
+          order_index = draft.teams.indexOf(team._id);
+
+          if (order_index == draft.teams.length - 1) {
+            //new round
+            draft.on_clock = draft.teams[0];
+            //is draft over?
+            if (draft.round == draft.rounds) {
+              response = "Draft is over";
+            } else {
+              draft.round += 1;
+            }
           } else {
-            team.save();
-            draft.save();
-            res.json(draft);
+            draft.on_clock = draft.teams[order_index + 1];
+          }
+          draft.clock_start = Date.now();
+          if (res) {
+            console.log(response);
+            if (response) {
+              res.json(response);
+            } else {
+              team.save();
+              draft.save();
+              setTimer(draft, draft_id);
+              res.json(draft);
+            }
           }
         });
       });
@@ -155,6 +226,6 @@ draftRouter.put("/:id/draft/:player_id", (req, res) => {
     .catch((err) => {
       console.log("error" + err);
     });
-});
+}
 
 module.exports = draftRouter;

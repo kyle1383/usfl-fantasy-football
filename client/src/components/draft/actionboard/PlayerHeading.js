@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
+import Stat from "./Stat";
 import "../../../styles/PlayerHeading.css";
 
-function PlayerHeading({ player, enabled, draftPlayer, autodraft }) {
+function PlayerHeading({
+  player,
+  enabled,
+  draftPlayer,
+  setSortBy,
+  setPlayerDialog,
+}) {
   useEffect(() => {});
   function alias() {
     if (typeof player.draft !== "undefined") {
@@ -16,7 +23,7 @@ function PlayerHeading({ player, enabled, draftPlayer, autodraft }) {
     }
   }
   function showPlayerDetails() {
-    console.log(player.draft);
+    setPlayerDialog(player.name);
   }
 
   return (
@@ -24,7 +31,7 @@ function PlayerHeading({ player, enabled, draftPlayer, autodraft }) {
       <button
         className="add-player"
         disabled={!enabled}
-        onClick={() => confirmDraft()}
+        onClick={() => draftPlayer(player)}
       >
         Add Player
       </button>
@@ -39,6 +46,8 @@ function PlayerHeading({ player, enabled, draftPlayer, autodraft }) {
           </p>
         </div>
       </button>
+      <Stat statInput={player.draft} name="round" setSortBy={setSortBy} />
+      <Stat statInput={player.birth_date} name="age" setSortBy={setSortBy} />
     </div>
   );
 }

@@ -8,34 +8,56 @@ import axios from "axios";
  *
  */
 
-function Timer({ round, roundLen }) {
-  const [seconds, setSeconds] = useState();
+function Timer({ round, roundLen, clockStart, status }) {
+  let timePassed = 0;
+  const [seconds, setSeconds] = useState(9);
+
   useEffect(() => {
-    if (typeof seconds === "undefined") {
-      setSeconds(roundLen);
+    if (!seconds) setSeconds(roundLen);
+    let interval = null;
+    if (status == "ACTIVE") {
+      interval = setInterval(() => {
+        let start = Date.parse(clockStart);
+        const currentTime = new Date().getTime();
+        timePassed = (currentTime - start) / 1000;
+        setSeconds(roundLen - timePassed);
+      });
     } else {
-      let interval;
-      if (seconds > 0) {
-        interval = setInterval(() => {
-          setSeconds((seconds) => seconds - 1);
-        }, 1000);
-      } else {
-        clearInterval(interval);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [seconds, clockStart]);
+
+  const secondsToMinutes = (secondTotal) => {
+    let time = "--:--";
+    if (secondTotal && secondTotal > 0) {
+      let minutes = Math.floor(secondTotal / 60);
+      let remSeconds = Math.round(secondTotal % 60);
+      if (remSeconds / 60 == 1) {
+        remSeconds = 0;
+        minutes++;
       }
 
-      return () => clearInterval(interval);
-    }
-  }, [roundLen, round, seconds]);
+      if (remSeconds < 10) {
+        remSeconds = "0" + remSeconds;
+      }
 
-  const TimeDisplay = ({ seconds }) => {
-    return <div className="time-display">{seconds}</div>;
+      time = minutes + ":" + remSeconds;
+    } else if (secondTotal) {
+      time = "0:00";
+    }
+
+    return time;
+  };
+  const TimeDisplay = () => {
+    return <div className="time-display">{secondsToMinutes(seconds)}</div>;
   };
 
   return (
     <div className="timer">
-      <TimeDisplay seconds={seconds} />
+      <TimeDisplay />
     </div>
   );
 }
 
-export default Timer;
+export default React.memo(Timer);

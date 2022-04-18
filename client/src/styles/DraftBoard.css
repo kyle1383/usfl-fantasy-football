@@ -1,18 +1,20 @@
 .draftboard {
   display: flex;
-  position: fixed;
-  top: 5%;
-  height: 50%;
+  position: absolute;
+  top: 0;
+  height: 55%;
   left: 50%;
   width: 100%;
   font-family: "Roboto";
   transform: translate(-50%);
   overflow: scroll;
   justify-content: center;
+  background-color: var(--bg-dark-gray);
 }
 .team-column {
   width: 30vw;
   padding: 2px;
+  max-width: 121px;
 }
 
 .draftboard::-webkit-scrollbar {
@@ -24,12 +26,14 @@
   margin: 2px;
   height: 61px;
   width: 29vw;
+  max-width: 120px;
   display: flex;
 }
 
 .selection-content {
   padding: 5px;
   width: 100%;
+  color: #e9ecef;
 }
 /*column*/
 .team-name {
@@ -44,12 +48,17 @@
 }
 .information p {
   margin: 0;
+  color: #dee2e6;
 }
 .pos-team,
 .pick-number {
   display: flex;
   font-size: 0.7rem;
   color: #343a40;
+}
+
+.unpicked .pick-number {
+  color: #fff;
 }
 
 /*name section*/

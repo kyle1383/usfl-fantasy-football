@@ -8,21 +8,40 @@
   box-shadow: var(--primary) 0px -4px;
   border-radius: 20px;
   width: 100%;
-  background: #fff;
+  background: var(--bg-gray);
 }
 
 .player-feed {
   display: flex;
   justify-content: center;
+  width: fit-content;
+  margin-left: 2rem;
 }
 
 /*position filters */
-.position-filters {
+.feed-header {
   height: 50px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 5rem;
+  padding: 0 0;
+  justify-content: space-around;
+}
+
+.position-filters {
+  display: flex;
+  flex: 0 0 60%;
+  justify-content: space-between;
+}
+.feed-header-side {
+  flex: 1 0 10%;
+  text-align: center;
+}
+@media only screen and (min-width: 500px) {
+  .feed-header {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 .position-filter {
   border: 2px solid lightgray;

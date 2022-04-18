@@ -24,13 +24,21 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import "../../../styles/ActionBoard.css";
 
-function PlayerFeed({ players, draftPlayer, enabled }) {
+function PlayerFeed({
+  players,
+  draftPlayer,
+  enabled,
+  setSortBy,
+  setPlayerDialog,
+}) {
   const playerFeed = players.map((player, k) => (
     <PlayerHeading
       player={player}
       key={k}
       enabled={enabled}
       draftPlayer={draftPlayer}
+      setSortBy={setSortBy}
+      setPlayerDialog={setPlayerDialog}
     />
   ));
   return (
@@ -47,12 +55,7 @@ function PlayerFeed({ players, draftPlayer, enabled }) {
     
       <Puller className="puller" />*/
     <div className="player-feed">
-      <List
-        dense
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-      >
-        <div>{playerFeed}</div>
-      </List>
+      <div>{playerFeed}</div>
     </div>
     /*</SwipeableDrawer>*/
   );

@@ -3,10 +3,11 @@ import axios from "axios";
 
 import AuthService from "../../services/auth.service";
 import PlayerFeed from "./actionboard/PlayerFeed";
-import Timer from "./timer/Timer";
+
 import DraftBoard from "../draft/draftboard/DraftBoard";
 import { useParams } from "react-router-dom";
 import ActionBoard from "./actionboard/ActionBoard";
+import PlayerDialog from "./actionboard/PlayerDialog";
 
 import "../../styles/Draft.css";
 
@@ -16,9 +17,11 @@ function Draft() {
   const [rounds, setRounds] = useState();
   const [onClock, _setOnClock] = useState();
   const [draft, setDraft] = useState([]);
-
+  const [clockStart, setClockStart] = useState([]);
+  const [playerDialog, setPlayerDialog] = useState();
   const [teams, _setTeams] = useState([]);
   const [allowAdd, setAllowAdd] = useState([false]);
+  const [status, setStatus] = useState("predraft");
   const user = AuthService.getCurrentUser();
 
   let { id } = useParams();
@@ -56,14 +59,6 @@ function Draft() {
     });
   };
 
-  function start() {
-    axios
-      .post("/api/drafts/start/" + id)
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   const orderedTeams = (teams, order) => {
     let orderedTeams = [];
 
@@ -85,6 +80,8 @@ function Draft() {
         setOnClock(res.data.on_clock);
         setDraft(res.data);
         setTeams(res.data.teams);
+        setStatus(res.data.status);
+        setClockStart(res.data.clock_start);
         setRound(res.data.round);
         setRounds(res.data.rounds);
       })
@@ -101,7 +98,8 @@ function Draft() {
           setRound(res.data.round);
           setOnClock(res.data.on_clock);
           setDraft(res.data);
-
+          setStatus(res.data.status);
+          setClockStart(res.data.clock_start);
           setRounds(res.data.rounds);
           setRoundLen(res.data.round_len);
 
@@ -118,18 +116,20 @@ function Draft() {
 
   return (
     <div className="draft">
-      <Timer round={round} roundLen={roundLen} />
-      <button className="start-draft" onClick={() => start()}>
-        Start Draft
-      </button>
-
       <DraftBoard teams={teams} rounds={rounds} />
 
       <ActionBoard
         drafted={draft.drafted}
         draftPlayer={draftPlayer}
         allowAdd={allowAdd}
+        setPlayerDialog={setPlayerDialog}
+        round={round}
+        roundLen={roundLen}
+        clockStart={clockStart}
+        status={status}
+        owner={draft.owner}
       />
+      <PlayerDialog player={playerDialog} />
     </div>
   );
 }

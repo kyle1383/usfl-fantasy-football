@@ -2,6 +2,8 @@
   padding: 10px 0;
   display: flex;
   align-items: center;
+  font-family: "Roboto";
+  background-color: var(--bg-gray);
 }
 
 .add-player {
@@ -19,10 +21,17 @@
 .add-player:hover {
   box-shadow: #52504e 0px 0px 2px;
 }
+.add-player:disabled {
+  filter: brightness(70%);
+  background-color: #adb5bd;
+}
 
 .heading-name {
   margin: 0;
   margin-bottom: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 115px;
 }
 
 .heading-team-pos {
@@ -35,4 +44,23 @@
   border-style: none;
   text-align: left;
   height: 100%;
+  display: flex;
+  width: 120px;
+  text-overflow: ellipsis;
+}
+.player-title {
+  width: 120px;
+  text-overflow: ellipsis;
+}
+
+.stat {
+  width: 60px;
+}
+.stat-name {
+  margin: 0;
+  color: gray;
+  font-size: 0.8rem;
+}
+.stat-value {
+  margin: 0;
 }
