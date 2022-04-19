@@ -48,7 +48,6 @@ function Invite() {
 
   let LeagueItem = (
     <div>
-      <h2>Hi {user.username}, you have been invited to a league</h2>
       <table>
         <tbody>
           <tr>
