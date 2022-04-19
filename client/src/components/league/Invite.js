@@ -16,7 +16,7 @@ function Invite() {
 
   useEffect(() => {
     if (!AuthService.isLoggedIn()) {
-      navigate("/login");
+      navigate("/login?from=" + id + "/invite");
     }
     axios
       .get("/api/leagues/" + id)

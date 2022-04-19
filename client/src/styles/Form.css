@@ -33,6 +33,7 @@ input.password {
 input.email {
   border: solid;
   border-top: none;
+  border-radius: 0px;
 }
 
 .login,

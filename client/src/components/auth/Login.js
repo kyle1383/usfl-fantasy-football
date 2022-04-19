@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -33,7 +33,6 @@ const Login = () => {
     setPassword(password);
   };
   useEffect(() => {
-    console.log(navigate);
     if (AuthService.isLoggedIn()) {
       navigate(-1) || navigate("/dashboard");
     }

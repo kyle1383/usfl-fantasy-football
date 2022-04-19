@@ -73,7 +73,7 @@ const Register = () => {
         .then((response) => {
           setMessage(response.data.message);
           setSuccessful(true);
-          navigate(-1);
+          navigate(-2) || navigate("/dashboard");
         })
         .catch((error) => {
           const resMessage =
