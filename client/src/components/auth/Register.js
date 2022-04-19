@@ -4,7 +4,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import AuthService from "../../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const required = (value) => {
   if (!value) {
@@ -44,6 +44,9 @@ const vpassword = (value) => {
 };
 const Register = () => {
   let navigate = useNavigate();
+  let location = useLocation();
+  //let from = location.state?.from?.pathname || "/";
+  const { from } = location.state;
   const form = useRef();
   const checkBtn = useRef();
   const [username, setUsername] = useState("");
@@ -73,7 +76,8 @@ const Register = () => {
         .then((response) => {
           setMessage(response.data.message);
           setSuccessful(true);
-          navigate(-2) || navigate("/dashboard");
+          //navigate(-2) || navigate("/dashboard");
+          navigate(from, { replace: true });
         })
         .catch((error) => {
           const resMessage =
@@ -94,6 +98,7 @@ const Register = () => {
         {!successful && (
           <div>
             <div className="form-group">
+              {console.log(from)}
               <Input
                 type="text"
                 className="name"

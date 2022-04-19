@@ -17,7 +17,8 @@ const required = (value) => {
 const Login = () => {
   let navigate = useNavigate();
   const form = useRef();
-  const location = useLocation();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
 
   const checkBtn = useRef();
   const [username, setUsername] = useState("");
@@ -34,7 +35,7 @@ const Login = () => {
   };
   useEffect(() => {
     if (AuthService.isLoggedIn()) {
-      navigate(-1) || navigate("/dashboard");
+      //navigate(-1) || navigate("/dashboard");
     }
   }, []);
 
@@ -46,7 +47,9 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, password).then(
         () => {
-          navigate(-1) || navigate("/dashboard");
+          //navigate(-1) || navigate("/dashboard");
+          console.log(from);
+          navigate(from, { replace: true });
           //window.location.reload();
         },
         (error) => {
@@ -101,10 +104,15 @@ const Login = () => {
             </div>
             <div className="don't have an account">
               Dont have an account?
-              <Link to={"/register"} className="nav-link">
+              <Link
+                to={"/register"}
+                state={{ from: from }}
+                className="nav-link"
+              >
                 {" "}
                 Register
               </Link>
+              {console.log(from)}
             </div>
 
             {message && (

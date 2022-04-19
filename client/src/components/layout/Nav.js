@@ -38,15 +38,18 @@ function Nav() {
         <div className="navbar-links">
           <div>
             {currentUser && (
-              <li className="nav-item">
+              <div></div>
+              /*<li className="nav-item">
                 <Link to={"/user"} className="nav-link">
                   User
                 </Link>
-              </li>
+              </li>*/
             )}
           </div>
           {currentUser ? (
-            <div>
+            <div></div>
+          ) : (
+            /*<div>
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   {currentUser.username}
@@ -57,8 +60,7 @@ function Nav() {
                   LogOut
                 </a>
               </li>
-            </div>
-          ) : (
+            </div>*/
             <div></div>
           )}
           <div className="cta">

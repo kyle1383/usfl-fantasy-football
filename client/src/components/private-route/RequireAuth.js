@@ -1,13 +1,26 @@
 import AuthService from "../../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+function RequireAuth({ children }) {
+  //const user = AuthService.getCurrentUser();
+  let location = useLocation();
 
-const RequireAuth = ({ children }) => {
-  const navigate = useNavigate();
-  const user = AuthService.getCurrentUser();
+  if (!AuthService.isLoggedIn()) {
+    // Redirect them to the /login page, but save the current location they were
+    // trying to go to when they were redirected. This allows us to send them
+    // along to that page after they login, which is a nicer user experience
+    // than dropping them off on the home page.
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
-  const authed = user !== null; // isauth() returns true or false based on localStorage
-
-  return authed ? children : navigate("/login");
-};
+  return children;
+}
 
 export default RequireAuth;

@@ -30,10 +30,6 @@ function LeagueList() {
 
   return (
     <div className="">
-      <h2>Your Leagues</h2>
-
-      <Link to="/new-league">Create New League</Link>
-
       <div>{leagueList}</div>
     </div>
   );

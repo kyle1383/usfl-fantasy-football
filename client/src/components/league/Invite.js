@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import "../../App.css";
+import "../../styles/Invite.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,9 +15,6 @@ function Invite() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!AuthService.isLoggedIn()) {
-      navigate("/login?from=" + id + "/invite");
-    }
     axios
       .get("/api/leagues/" + id)
       .then((res) => {
@@ -46,31 +43,11 @@ function Invite() {
   }
   //sub componenets
 
-  let LeagueItem = (
-    <div>
-      <table>
-        <tbody>
-          <tr>
-            <th scope="row">2</th>
-            <td>owner</td>
-            <td>{/*league.owner*/}</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>Published Date</td>
-            <td>{/*league.date*/}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
+  let LeagueItem = <div>You've been invited to {league?.name}!</div>;
   return (
-    <div className="">
-      {console.log(league)}
-      <h1>{/*league.name*/}</h1>
-
-      <div>{LeagueItem}</div>
-      <button onClick={(e) => onJoinClick(e)} className="">
+    <div className="invite">
+      <div className="">{LeagueItem}</div>
+      <button onClick={(e) => onJoinClick(e)} className="btn-submit">
         Join League
       </button>
     </div>

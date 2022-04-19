@@ -52,7 +52,15 @@ const App = () => {
         <Route exact path="/leagues/:id" element={<League />} />
 
         <Route path="/new-league" element={<CreateLeague />} />
-        <Route exact path="/leagues/:id/invite" element={<Invite />} />
+        <Route
+          exact
+          path="/leagues/:id/invite"
+          element={
+            <RequireAuth>
+              <Invite />
+            </RequireAuth>
+          }
+        />
         <Route exact path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
