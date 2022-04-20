@@ -46,7 +46,7 @@ const Register = () => {
   let navigate = useNavigate();
   let location = useLocation();
   //let from = location.state?.from?.pathname || "/";
-  const { from } = location.state;
+  const { from } = location.state || "/dashboard";
   const form = useRef();
   const checkBtn = useRef();
   const [username, setUsername] = useState("");

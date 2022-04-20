@@ -18,7 +18,7 @@ const Login = () => {
   let navigate = useNavigate();
   const form = useRef();
   let location = useLocation();
-  let from = location.state?.from?.pathname || "/";
+  let from = location.state?.from?.pathname || "/dashboard";
 
   const checkBtn = useRef();
   const [username, setUsername] = useState("");
