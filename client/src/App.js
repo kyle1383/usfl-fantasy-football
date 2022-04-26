@@ -44,7 +44,7 @@ const App = () => {
         <Route path="/draft/:id" element={<Draft />} />
         <Route path="/draft-settings/:id" element={<UpdateDraft />} />
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
@@ -61,7 +61,15 @@ const App = () => {
             </RequireAuth>
           }
         />
-        <Route exact path="/dashboard" element={<Dashboard />} />
+        <Route
+          exact
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </div>
   );

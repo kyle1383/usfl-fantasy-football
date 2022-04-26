@@ -23,6 +23,62 @@ leagueRouter.get("/", (req, res) => {
       res.status(404).json({ noleaguesfound: "No Leagues found" })
     );
 });
+leagueRouter.get("/users/:id", (req, res) => {
+  League.find()
+    .then((leagues) => {
+      let userLeagues = leagues.filter((league) => {
+        return league.managers.includes(req.params.id);
+      });
+      res.json(userLeagues);
+    })
+    .catch((err) =>
+      res.status(404).json({ noleaguesfound: "No Leagues found" })
+    );
+});
+
+leagueRouter.get("/standings/:id", (req, res) => {
+  const responseData = {
+    status: "",
+    teams: {
+      team: [],
+      owner: "",
+    },
+  };
+  League.findById(req.params.id)
+    .then((league) => {
+      Draft.findById(league.drafts[0]).then((draft) => {
+        responseData.status = draft.status;
+        let teams = [];
+
+        if (draft.status != "COMPLETE") {
+          let promises = [];
+          draft.teams.forEach((team_id) => {
+            const teamPromise = new Promise((resolve, reject) => {
+              Team.findById(team_id).then((team) => {
+                User.findById(team.owner).then((user) => {
+                  let teamObject = {
+                    team: team,
+                    owner: user.username,
+                  };
+                  resolve(teamObject);
+                });
+              });
+            });
+
+            promises.push(teamPromise);
+          });
+
+          Promise.all(promises).then((values) => {
+            responseData.teams = values;
+            res.json(responseData);
+          });
+        }
+      });
+    })
+    .catch((err) =>
+      res.status(404).json({ noleaguesfound: "No Leagues found" })
+    );
+});
 
 // @route GET api/leagues/:id
 // @description Get single league by id
@@ -154,6 +210,10 @@ leagueRouter.delete("/:id", (req, res) => {
   League.findByIdAndRemove(req.params.id, req.body)
     .then((league) => res.json({ mgs: "League entry deleted successfully" }))
     .catch((err) => res.status(404).json({ error: "No such a league" }));
+});
+
+leagueRouter.get("/users/:id", (req, res) => {
+  console.log("here");
 });
 
 module.exports = leagueRouter;

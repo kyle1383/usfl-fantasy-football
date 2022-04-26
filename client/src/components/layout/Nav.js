@@ -22,7 +22,7 @@ function Nav() {
   //sub components
   const currentPath = location.pathname;
   const TitleLink = () => {
-    if (currentPath.includes("draft")) {
+    if (currentPath.includes("draft") || currentPath.includes("dashboard")) {
       return null;
     } else {
       return (
@@ -32,24 +32,12 @@ function Nav() {
       );
     }
   };
-  const NavLinks = () => {
+  const UpperLink = () => {
     if (!currentPath.includes("draft")) {
       return (
-        <div className="navbar-links">
-          <div>
-            {currentUser && (
-              <div></div>
-              /*<li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-              </li>*/
-            )}
-          </div>
+        <div className="navbar-upper-links">
           {currentUser ? (
-            <div></div>
-          ) : (
-            /*<div>
+            <div className="upper-links">
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   {currentUser.username}
@@ -60,12 +48,10 @@ function Nav() {
                   LogOut
                 </a>
               </li>
-            </div>*/
+            </div>
+          ) : (
             <div></div>
           )}
-          <div className="cta">
-            <Link to="/new-league">Create A League</Link>
-          </div>
         </div>
       );
     } else {
@@ -75,8 +61,11 @@ function Nav() {
 
   return (
     <nav className="navbar">
+      <UpperLink />
       <TitleLink />
-      <NavLinks />
+      <div className="cta">
+        <Link to="/new-league">Create A League</Link>
+      </div>
     </nav>
   );
 }

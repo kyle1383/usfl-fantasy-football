@@ -35,7 +35,7 @@ function Invite() {
     axios
       .put("/api/leagues/join/" + id, data)
       .then((res) => {
-        navigate("/dashboard");
+        navigate("/leagues/" + id);
       })
       .catch((err) => {
         console.log("Error Joining League!");

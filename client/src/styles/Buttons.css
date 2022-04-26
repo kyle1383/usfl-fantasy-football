@@ -18,24 +18,79 @@
   background-color: #adb5bd;
 }
 
-.cta {
-  background-color: #0466c8;
+.btn {
   padding: 12px 20px;
   border-style: none;
   border-radius: 5px;
   text-transform: uppercase;
   color: white;
   font-weight: 900;
-
+  font-family: "Roboto";
   box-shadow: #52504e 1px 1px 5px;
   transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+}
+.btn-accent-1 {
+  background-color: var(--accent-1);
+}
+.btn-accent-2 {
+  background-color: var(--accent-2);
+}
+.btn-accent-3 {
+  background-color: var(--accent-3);
+}
+.btn-accent-4 {
+  background-color: var(--accent-4);
+}
+.btn a {
+  color: white;
+}
+
+.link-primary a {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.cta {
+  background-color: var(--accent-1);
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: din-round, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  overflow: visible;
+  padding: 13px 16px;
+  text-align: center;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transform: translateZ(0);
+  transition: filter 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 .cta:hover {
   box-shadow: #52504e 0px 0px 2px;
 }
 
 .btn-submit {
-  background-color: #0466c8;
+  background-color: var(--primary);
   padding: 12px 20px;
   border-style: none;
   border-radius: 5px;
@@ -46,4 +101,42 @@
   box-shadow: #52504e 1px 1px 5px;
   transition: 0.2s;
   width: 100%;
+}
+
+/* CSS */
+.button-19 {
+  background-color: #1899d6;
+}
+
+.cta:after {
+  background-clip: padding-box;
+  background-color: var(--primary);
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  bottom: -4px;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+}
+.cta:hover::after {
+  transform: translate(0, 4px);
+  transition: 0.3s;
+}
+
+.cta:main,
+.cta:focus {
+  user-select: auto;
+}
+
+.cts:hover:not(:disabled) {
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
+
+.button-19:disabled {
+  cursor: auto;
 }

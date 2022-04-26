@@ -23,7 +23,7 @@ function PlayerHeading({
     }
   }
   function showPlayerDetails() {
-    setPlayerDialog(player.name);
+    setPlayerDialog(player);
   }
 
   return (

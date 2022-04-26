@@ -1,0 +1,67 @@
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+  background: var(--bg-gray);
+  position: absolute;
+  top: 0;
+  padding-top: 1rem;
+}
+
+.draft-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  color: white;
+}
+
+.draft-section-header {
+  flex: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.draft-row,
+.league-row {
+  display: flex;
+  flex: 100%;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+.draft-title {
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.draft-btn {
+  flex: 0 0 50%;
+}
+.mock-btn {
+  flex: 0 0 20%;
+}
+.draft-settings {
+}
+
+/*league styles */
+.league-title {
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0 0.5rem;
+}
+.league-name {
+  margin: 0;
+}
+.league-title-section {
+  display: flex;
+  align-items: center;
+}
+
+.league-section {
+  color: white;
+}
+.list-icon {
+  color: var(--accent-1);
+}

@@ -1,0 +1,41 @@
+table {
+  border-spacing: 30px 10px;
+
+  text-align: left;
+}
+.team-ranks {
+  flex: 100%;
+}
+
+.team-rank {
+  font-family: "Roboto";
+}
+
+.rank-number {
+  border: 3px solid var(--accent-1);
+  border-radius: 50%;
+  width: 20px;
+  text-align: center;
+  height: 10px;
+  position: relative;
+  padding: 10px;
+}
+
+select {
+  width: fit-content;
+  flex: 100%;
+  background-color: var(--primary);
+  color: white;
+  padding: 12px;
+  width: 250px;
+  border: none;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+}
+
+select option {
+  padding: 30px;
+}

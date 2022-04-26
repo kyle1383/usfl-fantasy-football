@@ -17,6 +17,9 @@
   text-align: center;
   font-family: "Roboto";
 }
+body {
+  background-color: var(--bg-gray);
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -99,4 +102,54 @@ p {
 
 .player-heading {
   white-space: nowrap;
+}
+
+/* global */
+.panel {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 2rem;
+  margin: 1rem 0;
+  background-color: var(--bg-gray);
+  border-radius: 20px;
+  position: relative;
+  background-color: var(--bg-dark-gray);
+  border: var(--accent-1) 4px solid;
+}
+
+/*
+.panel:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    var(--primary),
+    var(--accent-1),
+    var(--accent-3),
+    var(--accent-4)
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 500%;
+  z-index: -1;
+  filter: blur(0px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  /*animation: glowing 40s linear infinite;*/
+/*opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 20px;
+}*/
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
