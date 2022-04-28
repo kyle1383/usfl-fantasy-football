@@ -1,18 +1,12 @@
 .dashboard {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 1rem;
-  background: var(--bg-gray);
-  position: absolute;
-  top: 0;
-  padding-top: 1rem;
 }
 
 .draft-section {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  color: white;
 }
 
 .draft-section-header {
@@ -42,6 +36,7 @@
   flex: 0 0 20%;
 }
 .draft-settings {
+  color: black;
 }
 
 /*league styles */
@@ -59,9 +54,28 @@
   align-items: center;
 }
 
-.league-section {
-  color: white;
+.league-select-section {
+  padding: 1.5rem 0;
 }
 .list-icon {
   color: var(--accent-1);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+li {
+  list-style: none;
+
+  padding: 1rem;
+  border-bottom: var(--bg-gray) solid;
+}
+
+li:first-child {
+  padding-top: 0;
+}
+
+.copy-icon {
+  padding-left: 0.5rem;
 }

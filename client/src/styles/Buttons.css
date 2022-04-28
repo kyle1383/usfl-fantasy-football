@@ -48,6 +48,9 @@
 .btn-accent-4 {
   background-color: var(--accent-4);
 }
+.btn-accent-5 {
+  background-color: var(--accent-5);
+}
 .btn a {
   color: white;
 }

@@ -12,12 +12,14 @@ import BoardUser from "./components/BoardUser";
 import Dashboard from "./components/dashboard/Dashboard";
 import League from "./components/league/League";
 import Invite from "./components/league/Invite";
+import Landing from "./components/layout/Landing";
 import Draft from "./components/draft/Draft";
 import Nav from "./components/layout/Nav";
 import CreateLeague from "./components/league/CreateLeague";
 import UpdateDraft from "./components/draft/UpdateDraft";
 import axios from "axios";
 import RequireAuth from "./components/private-route/RequireAuth";
+import RootRedirect from "./components/private-route/RootRedirect";
 import { Fragment } from "react/cjs/react.production.min";
 import "./styles/Fonts.css";
 
@@ -43,7 +45,16 @@ const App = () => {
       <Routes>
         <Route path="/draft/:id" element={<Draft />} />
         <Route path="/draft-settings/:id" element={<UpdateDraft />} />
-        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/"
+          element={
+            <RootRedirect>
+              <Dashboard />
+            </RootRedirect>
+          }
+        />
+        <Route path="/landing" element={<Landing />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -6,7 +6,7 @@
   margin-right: auto;
 }
 .form-group {
-  margin: 1rem 0;
+  margin: 0.25rem 0 1rem 0;
 }
 form {
   text-align: left;
@@ -20,6 +20,13 @@ input {
   width: 95%;
   padding-left: 5%;
   margin: 0;
+}
+input.setting {
+  border: solid;
+  border-radius: 5px;
+}
+input.btn {
+  width: 100%;
 }
 input.name {
   border: solid;

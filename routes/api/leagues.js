@@ -55,13 +55,21 @@ leagueRouter.get("/standings/:id", (req, res) => {
           draft.teams.forEach((team_id) => {
             const teamPromise = new Promise((resolve, reject) => {
               Team.findById(team_id).then((team) => {
-                User.findById(team.owner).then((user) => {
+                if (team.owner) {
+                  User.findById(team.owner).then((user) => {
+                    let teamObject = {
+                      team: team,
+                      owner: user.username,
+                    };
+                    resolve(teamObject);
+                  });
+                } else {
                   let teamObject = {
                     team: team,
-                    owner: user.username,
+                    owner: "unowned",
                   };
                   resolve(teamObject);
-                });
+                }
               });
             });
 

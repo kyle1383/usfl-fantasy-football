@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { FiMenu } from "react-icons/fi";
 import AuthService from "../../services/auth.service";
 import "../../styles/Nav.css";
 
@@ -22,12 +23,13 @@ function Nav() {
   //sub components
   const currentPath = location.pathname;
   const TitleLink = () => {
-    if (currentPath.includes("draft") || currentPath.includes("dashboard")) {
+    if (currentPath.includes("draft/")) {
       return null;
     } else {
       return (
-        <Link to={"/"} className="title">
-          USFL Fantasy
+        <Link to={"/"} className="header-home">
+          <p className="site-title">USFL</p>
+          <p className="site-subtitle">Fantasy</p>
         </Link>
       );
     }
@@ -63,9 +65,7 @@ function Nav() {
     <nav className="navbar">
       <UpperLink />
       <TitleLink />
-      <div className="cta">
-        <Link to="/new-league">Create A League</Link>
-      </div>
+      <FiMenu size="2em" className="menu-icon" />
     </nav>
   );
 }

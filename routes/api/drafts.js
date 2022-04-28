@@ -68,6 +68,7 @@ draftRouter.get("/teams", (req, res) => {
 });
 
 draftRouter.put("/:id", (req, res) => {
+  console.log(req.body);
   Draft.findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
       res.json("success");

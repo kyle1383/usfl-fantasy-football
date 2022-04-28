@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import "../../styles/Draft.css";
+import { FiArrowUpCircle, FiArrowDownCircle } from "react-icons/fi";
 
 /**
  *
@@ -15,13 +17,19 @@ function UpdateDraft() {
   let [order, setOrder] = useState([]);
   let { id } = useParams();
   let navigate = useNavigate();
-  //let [usernames, setUserNames] = useState([]);
+  let location = useLocation();
+  const { teams } = location.state || [];
+
   //Life Cycle Functions
+
   useEffect(() => {
+    let team_obj = [];
+    team_obj.push(teams[0].team.name);
+    team_obj.push(teams[1].team.name);
+
     axios
       .get("/api/drafts/" + id)
       .then((res) => {
-        console.log(res.data);
         setOrder(res.data.teams);
         setRosterSize(res.data.rounds);
         setRoundLength(res.data.round_len);
@@ -32,6 +40,7 @@ function UpdateDraft() {
   }, [id]);
   //custom Functions
   function handleSubmit(e) {
+    e.preventDefault();
     const data = {
       rounds: rosterSize,
       round_len: roundLength,
@@ -75,11 +84,21 @@ function UpdateDraft() {
 
   //sub components
   const Card = ({ user }) => {
+    const userObj = teams.filter((team) => {
+      return team.team._id === user;
+    });
+    const username = userObj[0].team.name;
     return (
       <div className="card">
-        {user}
-        <button onClick={(e) => arrayMove(e, user, -1)}>up</button>
-        <button onClick={(e) => arrayMove(e, user, 1)}>down</button>
+        <p className="name">{username}</p>
+        <FiArrowUpCircle
+          size="1.5rem"
+          onClick={(e) => arrayMove(e, user, -1)}
+        />{" "}
+        <FiArrowDownCircle
+          size="1.5rem"
+          onClick={(e) => arrayMove(e, user, 1)}
+        />
       </div>
     );
   };
@@ -87,7 +106,7 @@ function UpdateDraft() {
   const orderedUsers = order.map((user, k) => <Card key={k} user={user} />);
 
   return (
-    <div className="player-heading">
+    <div className="draft-settings-form">
       <form
         onSubmit={(e) => {
           handleSubmit(e);
@@ -101,6 +120,7 @@ function UpdateDraft() {
             placeholder="Roster Size"
             name="roster_size"
             value={rosterSize}
+            className="setting"
             onChange={(e) => setRosterSize(e.target.value)}
           />
         </div>
@@ -112,13 +132,16 @@ function UpdateDraft() {
             placeholder="Round Length"
             name="round_len"
             value={roundLength}
+            className="setting"
             onChange={(e) => setRoundLength(e.target.value)}
           />
         </div>
-        <label>Draft Order</label>
-        <button onClick={(e) => randomizeOrder(e)}>Randomize</button>
-        {orderedUsers}
-        <input type="submit" />
+        <div className="order-settings">
+          <label>Draft Order</label>
+          <button onClick={(e) => randomizeOrder(e)}>Randomize</button>
+          {orderedUsers}
+        </div>
+        <input type="submit" className="btn-accent-2 btn" />
       </form>
     </div>
   );

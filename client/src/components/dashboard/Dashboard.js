@@ -6,7 +6,7 @@ import LeagueHeader from "./LeagueHeader";
 import Standings from "./Standings";
 import AuthService from "../../services/auth.service";
 import e from "cors";
-import { FiSettings, FiGrid, FiList } from "react-icons/fi";
+import { FiSettings, FiGrid, FiList, FiCopy } from "react-icons/fi";
 
 function Dashboard() {
   const user = AuthService.getCurrentUser();
@@ -14,6 +14,7 @@ function Dashboard() {
   const [leagues, setLeagues] = useState([]);
   const [standings, setStandings] = useState();
   const [status, setStatus] = useState();
+  const [leagueSelectStatus, setLeagueSelectStatus] = useState("closed");
 
   useEffect(() => {
     axios
@@ -37,6 +38,7 @@ function Dashboard() {
 
   function setSelectedLeague(league) {
     _setSelectedLeague(league);
+    setLeagueSelectStatus("closed");
 
     axios
       .get("/api/leagues/standings/" + league._id)
@@ -52,7 +54,19 @@ function Dashboard() {
   }
 
   function openLeagueSelector() {
-    console.log("hi");
+    setLeagueSelectStatus("open");
+  }
+
+  function copyInviteLink() {
+    let copyText = `${window.location.origin}/leagues/${selectedLeague._id}/invite`;
+    navigator.clipboard.writeText(copyText).then(
+      function () {
+        console.log("Async: Copying to clipboard was successful!");
+      },
+      function (err) {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
   }
 
   /**
@@ -64,11 +78,16 @@ function Dashboard() {
       <div className="draft-section-header">
         <div className="draft-row">
           <p className="draft-title">Draft</p>
-          <FiSettings
-            size="1.5em"
-            className="draft-settings"
-            onClick={() => console.log("click")}
-          />
+          <Link
+            to={`/draft-settings/${selectedLeague?.drafts[0]}`}
+            state={{ teams: standings?.teams }}
+          >
+            <FiSettings
+              size="1.5rem"
+              className="draft-settings"
+              onClick={() => console.log("click")}
+            />
+          </Link>
         </div>
         <div className="draft-row">
           <nav className="btn-primary btn draft-btn">
@@ -83,40 +102,51 @@ function Dashboard() {
     );
   };
   const LeagueSelect = () => {
-    return (
-      <div className="panel league-section">
-        <div className="league-row">
-          <div
-            className="league-title-section"
-            onClick={() => openLeagueSelector()}
-          >
-            <FiList size="1.5em" className="list-icon" />
-            <p className="league-title">league</p>
+    if (leagueSelectStatus == "closed") {
+      return (
+        <div className="panel league-section">
+          <div className="league-row">
+            <div
+              className="league-title-section"
+              onClick={() => openLeagueSelector()}
+            >
+              <FiList size="1.5em" className="list-icon" />
+              <p className="league-title">{selectedLeague?.name}</p>
+            </div>
+            <FiSettings
+              size="1.5rem"
+              className="league-settings"
+              onClick={() => console.log("click")}
+            />
           </div>
-          <FiSettings
-            size="1.5em"
-            className="draft-settings"
-            onClick={() => console.log("click")}
-          />
+          <button className="btn btn-accent-5" onClick={() => copyInviteLink()}>
+            Invite Link <FiCopy className="copy-icon" />
+          </button>
         </div>
-        <div className="league-row">
-          {" "}
-          <h2 className="league-name">{selectedLeague?.name}</h2>
+      );
+    } else {
+      return (
+        <div className="panel league-select-section">
+          <ul>
+            {leagues.map((e, key) => {
+              return (
+                <li
+                  className="league-select-title"
+                  key={key}
+                  value={e.value}
+                  onClick={() => setSelectedLeague(e)}
+                >
+                  {e.name}
+                </li>
+              );
+            })}
+            <li className=" ">
+              <Link to="/new-league">Create A League</Link>
+            </li>
+          </ul>
         </div>
-      </div>
-      /*<select
-        value={selectedLeague}
-        onChange={(e) => setSelectedLeague(e.target.value)}
-      >
-        {leagues.map((e, key) => {
-          return (
-            <option key={key} value={e.value}>
-              {e.name}
-            </option>
-          );
-        })}
-      </select>*/
-    );
+      );
+    }
   };
 
   return (

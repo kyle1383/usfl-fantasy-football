@@ -27,7 +27,11 @@ function Standings({ standings, status }) {
     let teamRanks;
 
     if (!standings) {
-      teamRanks = "there are no leagues!";
+      teamRanks = (
+        <tr>
+          <td>there are no leagues!</td>
+        </tr>
+      );
     } else {
       let index = 0;
       teamRanks = standings.teams.map((team, k) => {

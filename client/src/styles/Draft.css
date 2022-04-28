@@ -4,3 +4,30 @@
   background: none;
   border-style: none;
 }
+
+.draft-settings-form {
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+form {
+  font-size: 1rem;
+}
+
+.card {
+  padding: 0.5rem 0;
+  display: flex;
+}
+
+.name {
+  margin: 0;
+  padding-right: 0.5rem;
+}
+
+svg {
+  padding-right: 0.25rem;
+}
+
+.order-settings {
+  padding: 1rem 0;
+}
