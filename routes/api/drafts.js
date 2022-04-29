@@ -166,6 +166,9 @@ function autodraft(draft_id, player_id, user_id) {
             draft.on_clock = draft.teams[0];
             //is draft over?
             if (draft.round == draft.rounds) {
+              draft.status = "COMPLETE";
+              team.save();
+              draft.save();
               response = "Draft is over";
             } else {
               draft.round += 1;
@@ -209,7 +212,9 @@ function draft(draft_id, player_id, user_id, res) {
             draft.on_clock = draft.teams[0];
             //is draft over?
             if (draft.round == draft.rounds) {
-              response = "Draft is over";
+              draft.status = "COMPLETE";
+              draft.save();
+              response = "complete";
             } else {
               draft.round += 1;
             }
@@ -218,8 +223,11 @@ function draft(draft_id, player_id, user_id, res) {
           }
           draft.clock_start = Date.now();
           if (res) {
-            console.log(response);
-            if (response) {
+            if (response == "complete") {
+              team.save();
+              draft.save();
+              res.json(draft);
+            } else if (response) {
               res.json(response);
             } else {
               team.save();

@@ -61,6 +61,9 @@ function ActionBoard({
       newPlayers = sortByPoints(newPlayers);
     }
     newPlayers = filterPosition(newPlayers);
+    newPlayers = newPlayers.filter((player) => {
+      return !drafted.includes(player._id);
+    });
     return newPlayers;
   };
 
@@ -120,7 +123,7 @@ function ActionBoard({
 
   const sortByPoints = (playersObject) => {
     let newPlayers = playersObject;
-    console.log(playersObject);
+
     newPlayers.sort(function (a, b) {
       let pointsA = 0;
       let pointsB = 0;

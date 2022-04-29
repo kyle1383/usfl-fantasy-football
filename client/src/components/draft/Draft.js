@@ -87,6 +87,7 @@ function Draft() {
     axios
       .put("/api/drafts/" + id + "/draft/" + player._id, data)
       .then((res) => {
+        console.log(res);
         setRoundLen(res.data.round_len);
         setOnClock(res.data.on_clock);
         setDraft(res.data);

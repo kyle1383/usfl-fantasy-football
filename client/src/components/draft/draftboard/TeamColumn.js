@@ -15,7 +15,6 @@ function TeamColumn({
 
   const setPlayers = (tempPlayers) => {
     if (tempPlayers.length != players.length) {
-      console.log("settings");
       _setPlayers(tempPlayers);
     }
   };

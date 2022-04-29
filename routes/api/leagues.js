@@ -25,7 +25,34 @@ leagueRouter.get("/", (req, res) => {
 });
 
 leagueRouter.put("/:id", (req, res) => {
-  League.find({ id: req.params.id })
+  League.findById(req.params.id)
+    .then((league) => {
+      const roster_spots = req.body.settings.roster_spots;
+      const roster_size = Object.values(roster_spots).reduce(
+        (previous, current) => {
+          return previous + current;
+        }
+      );
+      league.name = req.body.name;
+      league.size = req.body.size;
+      league.settings.scoring = req.body.settings.scoring;
+      league.settings.roster_spots = req.body.settings.roster_spots;
+      league.settings.roster_size = roster_size;
+      Draft.findById(league.drafts[0]).then((draft) => {
+        draft.rounds = roster_size;
+        draft.save();
+        league.save();
+      });
+
+      res.json("success");
+    })
+    .catch((err) =>
+      res.status(404).json({ noleaguesfound: "No Drafts found" + err })
+    );
+});
+/*
+leagueRouter.put("/:id", (req, res) => {
+  League.findById(req.params.id)
     .then((league) => {
       const roster_spots = req.body.settings.roster_spots;
       const roster_size = Object.values(roster_spots).reduce(
@@ -34,18 +61,18 @@ leagueRouter.put("/:id", (req, res) => {
         }
       );
 
-      league[0].name = req.body.name;
-      league[0].size = req.body.size;
-      league[0].settings.scoring = req.body.settings.scoring;
-      league[0].settings.roster_spots = req.body.settings.roster_spots;
-      league[0].settings.roster_size = roster_size;
-      league[0].save();
+      league.name = req.body.name;
+      league.size = req.body.size;
+      league.settings.scoring = req.body.settings.scoring;
+      league.settings.roster_spots = req.body.settings.roster_spots;
+      league.settings.roster_size = roster_size;
+      league.save();
       res.json("success");
     })
     .catch((err) =>
       res.status(404).json({ noleaguesfound: "No Drafts found" + err })
     );
-});
+});*/
 
 leagueRouter.get("/users/:id", (req, res) => {
   League.find()
@@ -196,13 +223,6 @@ leagueRouter.post("/", (req, res) => {
 // @route GET api/leagues/:id
 // @description Update league
 // @access Public
-leagueRouter.put("/:id", (req, res) => {
-  League.findByIdAndUpdate(req.params.id, req.body)
-    .then((league) => res.json({ msg: "Updated successfully" }))
-    .catch((err) =>
-      res.status(400).json({ error: "Unable to update the Database" })
-    );
-});
 
 // @description add member to league
 // @access Public
@@ -214,9 +234,6 @@ leagueRouter.put("/join/:id", (req, res) => {
       User.findOne({ _id: user_id }).then((user) => {
         index = league.managers.length;
         league.managers.push(user);
-        console.log(league.managers);
-        console.log("index");
-        console.log(index);
 
         Team.findById(league.teams[index]).then((team) => {
           team.owner = user;

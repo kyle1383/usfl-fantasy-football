@@ -114,7 +114,7 @@ function Dashboard() {
               <p className="league-title">{selectedLeague?.name}</p>
             </div>
             <Link
-              to={`/league-settings/${selectedLeague?.drafts[0]}`}
+              to={`/league-settings/${selectedLeague?._id}`}
               state={{ league: selectedLeague }}
             >
               <FiSettings

@@ -23,11 +23,11 @@ h4 {
   margin-bottom: 0;
   margin-top: 0.5rem;
 }
-td {
+.player-dialog td {
   border-bottom: 1px solid var(--line-gray);
 }
 
-table {
+.player-dialog table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;

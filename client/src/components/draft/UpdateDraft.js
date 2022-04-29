@@ -12,7 +12,6 @@ import { FiArrowUpCircle, FiArrowDownCircle } from "react-icons/fi";
  */
 function UpdateDraft() {
   //state
-  let [rosterSize, setRosterSize] = useState(13);
   let [roundLength, setRoundLength] = useState(120);
   let [order, setOrder] = useState([]);
   let { id } = useParams();
@@ -24,6 +23,7 @@ function UpdateDraft() {
 
   useEffect(() => {
     let team_obj = [];
+    console.log(teams);
     team_obj.push(teams[0].team.name);
     team_obj.push(teams[1].team.name);
 
@@ -31,7 +31,6 @@ function UpdateDraft() {
       .get("/api/drafts/" + id)
       .then((res) => {
         setOrder(res.data.teams);
-        setRosterSize(res.data.rounds);
         setRoundLength(res.data.round_len);
       })
       .catch((err) => {
@@ -42,7 +41,6 @@ function UpdateDraft() {
   function handleSubmit(e) {
     e.preventDefault();
     const data = {
-      rounds: rosterSize,
       round_len: roundLength,
       teams: order,
       on_clock: order[0],
@@ -112,18 +110,6 @@ function UpdateDraft() {
           handleSubmit(e);
         }}
       >
-        <label>Roster Size</label>
-        <div className="form-group">
-          <input
-            type="number"
-            max="50"
-            placeholder="Roster Size"
-            name="roster_size"
-            value={rosterSize}
-            className="setting"
-            onChange={(e) => setRosterSize(e.target.value)}
-          />
-        </div>
         <label>Round Length[seconds]</label>
         <div className="form-group">
           <input

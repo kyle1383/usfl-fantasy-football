@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/Timer.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import AuthService from "../../../services/auth.service";
 /**
  *
@@ -69,6 +69,12 @@ function Timer({ round, roundLen, clockStart, status, owner }) {
       return <div className="time-display">{secondsToMinutes(seconds)}</div>;
     } else if (status == "PENDING") {
       return <StartButton />;
+    } else if (status == "COMPLETE") {
+      return (
+        <Link to={"/dashboard"} className="btn btn-primary">
+          Home
+        </Link>
+      );
     } else {
       return null;
     }

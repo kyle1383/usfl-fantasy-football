@@ -5,3 +5,11 @@
   font-weight: 600;
   font-family: "Roboto";
 }
+
+.btn {
+  padding: 5px;
+  width: 65%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
