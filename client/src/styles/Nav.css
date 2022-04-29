@@ -31,34 +31,50 @@
 
 .menu-icon {
   color: var(--accent-2);
+  z-index: 10;
 }
 .navbar-upper-links {
-  background-color: var(--accent-1);
   flex: 100%;
-
   justify-content: flex-end;
   border-bottom: 1px solid var(--bg-gray);
-  align-items: center;
+  padding-top: 7.5rem;
   margin-bottom: 1rem;
+  position: absolute;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: white;
+}
+.closed {
   display: none;
 }
+.open {
+  display: flex;
+}
+.upper-links {
+  width: 100%;
+}
+
 @media only screen and (min-width: 500px) {
   .navbar-upper-links {
     display: flex;
+    background-color: var(--accent-1);
   }
   .navbar {
     padding-bottom: 1rem;
     margin-top: 0;
   }
-}
-.upper-links {
-  display: flex;
-  padding: 8px 0px;
-  align-items: center;
-}
-.upper-links li {
-  border-bottom: none;
-  padding: 0;
+  .upper-links {
+    display: flex;
+    padding: 8px 0px;
+    align-items: center;
+  }
+  .upper-links li {
+    border-bottom: none;
+    padding: 0;
+  }
 }
 
 .navbar-links {

@@ -9,6 +9,7 @@ function Nav() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const location = useLocation();
   const id = location.pathname.substring("/draft/".length);
+  const [menuOpen, _setMenuOpen] = useState("closed");
   useEffect(() => {
     const user = AuthService.getCurrentUser();
     if (user) {
@@ -20,8 +21,14 @@ function Nav() {
     AuthService.logout();
   };
 
+  const setMenuOpen = () => {
+    if (menuOpen == "closed") _setMenuOpen("open");
+    if (menuOpen == "open") _setMenuOpen("closed");
+  };
   //sub components
+
   const currentPath = location.pathname;
+
   const TitleLink = () => {
     if (currentPath.includes("draft/")) {
       return null;
@@ -37,7 +44,7 @@ function Nav() {
   const UpperLink = () => {
     if (!currentPath.includes("draft")) {
       return (
-        <div className="navbar-upper-links">
+        <div className={`navbar-upper-links ${menuOpen}`}>
           {currentUser ? (
             <div className="upper-links">
               <li className="nav-item">
@@ -65,7 +72,7 @@ function Nav() {
     <nav className="navbar">
       <UpperLink />
       <TitleLink />
-      <FiMenu size="2em" className="menu-icon" />
+      <FiMenu size="2em" className="menu-icon" onClick={() => setMenuOpen()} />
     </nav>
   );
 }
