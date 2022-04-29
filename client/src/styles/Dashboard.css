@@ -35,7 +35,8 @@
 .mock-btn {
   flex: 0 0 20%;
 }
-.draft-settings {
+.draft-settings,
+.league-settings {
   color: black;
 }
 

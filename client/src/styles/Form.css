@@ -14,13 +14,14 @@ form {
 
 input {
   padding: 12px 0px;
-  border-style: none;
   font-size: 1rem;
   transition: 0.2s;
   width: 95%;
+  border: none;
   padding-left: 5%;
   margin: 0;
 }
+
 input.setting {
   border: solid;
   border-radius: 5px;
@@ -28,7 +29,7 @@ input.setting {
 input.btn {
   width: 100%;
 }
-input.name {
+input.username {
   border: solid;
   border-radius: 10px 10px 0 0;
 }

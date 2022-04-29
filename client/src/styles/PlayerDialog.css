@@ -1,10 +1,92 @@
 .player-dialog {
   position: fixed;
-  top: 5vh;
-  left: 5vw;
-  height: 90vh;
-  width: 90vw;
-  background-color: #6c757d;
-  border-radius: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 2rem;
+  background-color: white;
+  overflow: scroll;
   box-shadow: gray 3px 3px 3px;
+  font-family: "Roboto";
+}
+.player-dialog::-webkit-scrollbar {
+  display: none;
+}
+
+.player-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+h4 {
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}
+td {
+  border-bottom: 1px solid var(--line-gray);
+}
+
+table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/*header box*/
+
+.points {
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent-1);
+}
+.player-dialog-header {
+  background-color: rgba(var(--primary), 0.1);
+  width: auto;
+  margin: 0;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.dialog-header-row {
+  display: flex;
+  flex: 100%;
+  justify-content: space-between;
+}
+.player-data {
+  margin-top: 0;
+  font-weight: 200;
+  font-size: 0.8rem;
+}
+.points-label {
+  margin-bottom: 0;
+}
+.player-name {
+  margin-bottom: 0.2rem;
+  font-weight: 700;
+}
+.player-pos {
+  margin-top: 0;
+  margin-bottom: 0.2rem;
+}
+
+/* general data*/
+.general-stats {
+  padding-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.general-stats-row {
+  flex: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.general-stats-row p {
+  margin: 0;
+  font-weight: 200;
+  font-size: 0.9rem;
 }

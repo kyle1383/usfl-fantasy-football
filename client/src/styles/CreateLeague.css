@@ -1,0 +1,44 @@
+.create-league {
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: "roboto";
+}
+
+.size-select {
+  display: flex;
+  overflow: scroll;
+}
+.size-option {
+  padding: 1rem;
+  margin: 0.1rem;
+  border: var(--line-gray) solid 2px;
+}
+
+.size-option.selected {
+  background-color: var(--bg-gray);
+}
+.size-select::-webkit-scrollbar {
+  display: none;
+}
+
+.position-interval {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.position {
+  font-size: 1.25rem;
+  font-weight: 900;
+  font-family: "Roboto";
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+
+.plus-btn {
+  padding-left: 3px;
+  color: var(--accent-5);
+}
+.minus-btn {
+  color: var(--accent-1);
+}

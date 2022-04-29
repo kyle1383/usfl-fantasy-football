@@ -3,7 +3,6 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
   padding: 1rem;
   box-shadow: 0px 1px 0px var(--line-gray);
   line-height: 0.8;
@@ -49,12 +48,17 @@
   }
   .navbar {
     padding-bottom: 1rem;
-    padding-top: 0;
+    margin-top: 0;
   }
 }
 .upper-links {
   display: flex;
-  padding-bottom: 8px;
+  padding: 8px 0px;
+  align-items: center;
+}
+.upper-links li {
+  border-bottom: none;
+  padding: 0;
 }
 
 .navbar-links {

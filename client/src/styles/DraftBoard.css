@@ -19,7 +19,6 @@
   height: 180%;
 }
 .team-column:first-child {
-  padding-left: 80%;
 }
 
 .draftboard::-webkit-scrollbar {

@@ -23,12 +23,20 @@ function Draft() {
   const [status, setStatus] = useState("predraft");
   const [boardView, setBoardView] = useState("draft");
   const [rosterSpots, setRosterSpots] = useState([]);
+  const [league, _setLeague] = useState([]);
   const user = AuthService.getCurrentUser();
 
   let { id } = useParams();
 
   //functions
 
+  const setLeague = (leagueID) => {
+    if (league.length == 0) {
+      axios.get("/api/leagues/" + leagueID).then((leagueData) => {
+        _setLeague(leagueData.data);
+      });
+    }
+  };
   const setOnClock = (onClock) => {
     _setOnClock(onClock);
     axios
@@ -56,8 +64,6 @@ function Draft() {
     });
 
     Promise.allSettled(promises).then((results) => {
-      results.forEach((result) => console.log(/*result.status*/));
-
       newTeams = orderedTeams(newTeams, team_ids);
 
       _setTeams(newTeams);
@@ -109,6 +115,7 @@ function Draft() {
           setRoundLen(res.data.round_len);
           setRosterSpots(res.data.roster_spots);
           setTeams(res.data.teams);
+          setLeague(res.data.league);
         })
         .catch((err) => {
           console.log("Error from League");
@@ -140,8 +147,14 @@ function Draft() {
         boardView={boardView}
         toggleBoard={toggleBoard}
         owner={draft.owner}
+        league={league}
       />
-      <PlayerDialog player={playerDialog} />
+
+      <PlayerDialog
+        player={playerDialog}
+        setPlayerDialog={setPlayerDialog}
+        league={league}
+      />
     </div>
   );
 }

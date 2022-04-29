@@ -8,6 +8,7 @@ function PlayerHeading({
   draftPlayer,
   setSortBy,
   setPlayerDialog,
+  league,
 }) {
   useEffect(() => {});
   function alias() {
@@ -48,6 +49,12 @@ function PlayerHeading({
       </button>
       <Stat statInput={player.draft} name="round" setSortBy={setSortBy} />
       <Stat statInput={player.birth_date} name="age" setSortBy={setSortBy} />
+      <Stat
+        statInput={player.stats_categories}
+        name="points"
+        setSortBy={setSortBy}
+        league={league}
+      />
     </div>
   );
 }

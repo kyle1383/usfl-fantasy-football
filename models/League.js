@@ -47,6 +47,11 @@ const LeagueSchema = new Schema({
     default: Date.now,
   },
   settings: {
+    scoring: {
+      type: String,
+      enum: ["PPR", "HALFPPR", "ZEROPPR"],
+      default: "PPR",
+    },
     roster_spots: {
       QB: {
         type: Number,

@@ -17,11 +17,13 @@ import Draft from "./components/draft/Draft";
 import Nav from "./components/layout/Nav";
 import CreateLeague from "./components/league/CreateLeague";
 import UpdateDraft from "./components/draft/UpdateDraft";
+import UpdateLeague from "./components/league/UpdateLeague";
 import axios from "axios";
 import RequireAuth from "./components/private-route/RequireAuth";
 import RootRedirect from "./components/private-route/RootRedirect";
 import { Fragment } from "react/cjs/react.production.min";
 import "./styles/Fonts.css";
+import Admin from "./components/auth/Admin";
 
 const App = () => {
   if (process.env.NODE_ENV !== "production") {
@@ -45,6 +47,7 @@ const App = () => {
       <Routes>
         <Route path="/draft/:id" element={<Draft />} />
         <Route path="/draft-settings/:id" element={<UpdateDraft />} />
+        <Route path="/league-settings/:id" element={<UpdateLeague />} />
 
         <Route
           path="/"
@@ -55,6 +58,7 @@ const App = () => {
           }
         />
         <Route path="/landing" element={<Landing />} />
+        <Route path="/admin" element={<Admin />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

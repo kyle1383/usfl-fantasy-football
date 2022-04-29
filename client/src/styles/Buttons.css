@@ -26,11 +26,16 @@
   color: white;
   font-weight: 900;
   font-family: "Roboto";
-  box-shadow: #52504e 1px 1px 5px;
+  box-shadow: #52504e 1px 1px 1px;
   transition: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.2s;
+}
+
+.btn:focus {
+  box-shadow: #52504e 0px 0px 1px;
 }
 
 .btn-primary {

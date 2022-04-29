@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles/Leagues.css";
 import LeagueHeader from "./LeagueHeader";
 import Standings from "./Standings";
 import AuthService from "../../services/auth.service";
-import e from "cors";
+
 import { FiSettings, FiGrid, FiList, FiCopy } from "react-icons/fi";
 
 function Dashboard() {
@@ -113,11 +113,16 @@ function Dashboard() {
               <FiList size="1.5em" className="list-icon" />
               <p className="league-title">{selectedLeague?.name}</p>
             </div>
-            <FiSettings
-              size="1.5rem"
-              className="league-settings"
-              onClick={() => console.log("click")}
-            />
+            <Link
+              to={`/league-settings/${selectedLeague?.drafts[0]}`}
+              state={{ league: selectedLeague }}
+            >
+              <FiSettings
+                size="1.5rem"
+                className="league-settings"
+                onClick={() => console.log("click")}
+              />
+            </Link>
           </div>
           <button className="btn btn-accent-5" onClick={() => copyInviteLink()}>
             Invite Link <FiCopy className="copy-icon" />

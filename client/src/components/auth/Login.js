@@ -77,7 +77,7 @@ const Login = () => {
               <Input
                 type="text"
                 placeholder="username"
-                className="form-control name"
+                className="form-control username"
                 name="username"
                 value={username}
                 onChange={onChangeUsername}

@@ -101,7 +101,7 @@ const Register = () => {
               {console.log(from)}
               <Input
                 type="text"
-                className="name"
+                className="username"
                 placeholder="username"
                 name="username"
                 value={username}

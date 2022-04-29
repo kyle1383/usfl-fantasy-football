@@ -30,6 +30,7 @@ function PlayerFeed({
   enabled,
   setSortBy,
   setPlayerDialog,
+  league,
 }) {
   const playerFeed = players.map((player, k) => (
     <PlayerHeading
@@ -39,25 +40,13 @@ function PlayerFeed({
       draftPlayer={draftPlayer}
       setSortBy={setSortBy}
       setPlayerDialog={setPlayerDialog}
+      league={league}
     />
   ));
   return (
-    /* <SwipeableDrawer
-      anchor="bottom"
-      open={open}
-      onClose={toggleDrawer(false)}
-      onOpen={toggleDrawer(true)}
-      swipeAreaWidth={drawerBleeding}
-      disableSwipeToOpen={false}
-      ModalProps={{
-        keepMounted: true,
-      }}
-    
-      <Puller className="puller" />*/
     <div className="player-feed">
       <div>{playerFeed}</div>
     </div>
-    /*</SwipeableDrawer>*/
   );
 }
 

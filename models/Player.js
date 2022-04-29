@@ -72,6 +72,14 @@ const PlayerSchema = new Schema({
       },
     },
   },
+  stats_categories: [
+    {
+      name: {
+        type: String,
+      },
+      stats: {},
+    },
+  ],
 });
 
 module.exports = Player = mongoose.model("players", PlayerSchema);

@@ -23,6 +23,30 @@ leagueRouter.get("/", (req, res) => {
       res.status(404).json({ noleaguesfound: "No Leagues found" })
     );
 });
+
+leagueRouter.put("/:id", (req, res) => {
+  League.find({ id: req.params.id })
+    .then((league) => {
+      const roster_spots = req.body.settings.roster_spots;
+      const roster_size = Object.values(roster_spots).reduce(
+        (previous, current) => {
+          return previous + current;
+        }
+      );
+
+      league[0].name = req.body.name;
+      league[0].size = req.body.size;
+      league[0].settings.scoring = req.body.settings.scoring;
+      league[0].settings.roster_spots = req.body.settings.roster_spots;
+      league[0].settings.roster_size = roster_size;
+      league[0].save();
+      res.json("success");
+    })
+    .catch((err) =>
+      res.status(404).json({ noleaguesfound: "No Drafts found" + err })
+    );
+});
+
 leagueRouter.get("/users/:id", (req, res) => {
   League.find()
     .then((leagues) => {

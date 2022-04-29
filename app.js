@@ -2,6 +2,7 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const http = require("http");
+
 var cors = require("cors");
 const socketIo = require("socket.io");
 // routes
@@ -30,5 +31,7 @@ app.get("/", (req, res) => res.send("Hello world!"));
 app.use("/api/books", books);
 
 const port = process.env.PORT || 8082;
+
+console.log("in");
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

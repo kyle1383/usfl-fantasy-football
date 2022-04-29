@@ -18,6 +18,7 @@ function ActionBoard({
   boardView,
   toggleBoard,
   owner,
+  league,
 }) {
   const [position, setPosition] = useState("All");
   const [players, setPlayers] = useState([]);
@@ -25,12 +26,12 @@ function ActionBoard({
   const offensive_pos = ["QB", "WR", "RB", "TE", "K", "FB"];
   const [toggle, setToggle] = useState(1);
 
-  function setSortBy(sortProperty) {
+  const setSortBy = (sortProperty) => {
     if (sortProperty == sortBy) {
       setToggle(toggle * -1);
     }
     _setSortBy(sortProperty);
-  }
+  };
   useEffect(() => {
     if (drafted && players.length == 0) {
       axios
@@ -56,6 +57,8 @@ function ActionBoard({
       newPlayers = sortByDraft(newPlayers);
     } else if (sortBy == "age") {
       newPlayers = sortByAge(newPlayers);
+    } else if (sortBy == "points") {
+      newPlayers = sortByPoints(newPlayers);
     }
     newPlayers = filterPosition(newPlayers);
     return newPlayers;
@@ -115,7 +118,53 @@ function ActionBoard({
     return newPlayers;
   };
 
+  const sortByPoints = (playersObject) => {
+    let newPlayers = playersObject;
+    console.log(playersObject);
+    newPlayers.sort(function (a, b) {
+      let pointsA = 0;
+      let pointsB = 0;
+      if (typeof a.draft === "undefined") {
+        pointsA = 0 * toggle;
+      } else {
+        pointsA = getPoints(a.stats_categories);
+      }
+      if (typeof b.draft === "undefined") {
+        pointsB = 0 * toggle;
+      } else {
+        pointsB = getPoints(b.stats_categories);
+      }
+      if (pointsA < pointsB) return 1 * toggle;
+      if (pointsA > pointsB) return -1 * toggle;
+      return 0;
+    });
+
+    return newPlayers;
+  };
+
   //helper functions
+  function getPoints(statsCategories) {
+    let total = 0;
+    let scoringModifier;
+    if (league.settings.scoring === "PPR") scoringModifier = 1;
+    if (league.settings.scoring === "HALFPPR") scoringModifier = 0.5;
+    if (league.settings.scoring === "PPR") scoringModifier = 0;
+    //rushing
+    statsCategories.forEach((category) => {
+      if (category.name === "rushing") {
+        total += category.stats.yards / 10;
+        total += category.stats.touchdowns * 6;
+      } else if (category.name === "receiving") {
+        total += category.stats.receptions * scoringModifier;
+        total += category.stats.yards / 10;
+        total += category.stats.touchdowns * 6;
+      } else if (category.name === "passing") {
+        total += category.stats.yards / 25;
+        total += category.stats.touchdowns * 6;
+      }
+    });
+    return total;
+  }
   function getAge(dateString) {
     var today = new Date();
     var birthDate = new Date(dateString);
@@ -142,9 +191,10 @@ function ActionBoard({
       <PlayerFeed
         players={filteredPlayers()}
         draftPlayer={draftPlayer}
-        enabled={allowAdd}
+        enabled={status == "ACTIVE" ? allowAdd : false}
         setSortBy={setSortBy}
         setPlayerDialog={setPlayerDialog}
+        league={league}
       />
     </div>
   );
