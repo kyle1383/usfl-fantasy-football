@@ -14,7 +14,7 @@ import {
   TransformControls,
 } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import Model from "./Earth";
+import Model from "./Usflworld";
 import City from "./City";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -99,7 +99,6 @@ function Landing() {
 
             <Suspense fallback={null}>
               <Model position={[0, -2.75, 0]} /> /* highlight-line */
-              <City position={[0, -2.75, 0]} /> /* highlight-line */
               <EffectComposer multisampling={8}>
                 <Bloom
                   kernelSize={2}
