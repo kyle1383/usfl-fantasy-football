@@ -1,0 +1,80 @@
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+}
+.landing {
+  background-color: var(--bg);
+}
+.half-panel {
+  flex: 100%;
+  text-align: center;
+}
+.half-panel:first-child {
+  padding: 1rem 2rem;
+}
+@media only screen and (min-width: 500px) {
+  .half-panel {
+    flex: 0 0 50%;
+    padding: 0;
+  }
+  .half-panel:first-child {
+    padding: 0;
+  }
+}
+
+p {
+  color: var(--bg-dark-gray);
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+}
+h2 {
+  margin: 0.25rem;
+}
+input {
+  border: 2px var(--accent-2) solid;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+.btn {
+  width: 100%;
+  margin: auto;
+  font-size: 1rem;
+}
+h1 {
+  font-size: 2.5rem;
+  font-family: "Roboto";
+  color: var(--accent-2);
+  margin: 0.5rem 0;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    var(--primary),
+    var(--accent-1),
+    var(--accent-3),
+    var(--accent-4),
+    var(--accent-3),
+    var(--accent-1),
+    var(--primary)
+  );
+  animation: glimmer infinite 10s linear;
+  background-size: 3000px;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes glimmer {
+  0% {
+    background-position: -3000px 0;
+  }
+  25% {
+    background-position: -2000px 0;
+  }
+  50% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 0px 0;
+  }
+}

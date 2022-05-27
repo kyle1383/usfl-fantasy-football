@@ -6,6 +6,7 @@
   padding: 1rem;
   box-shadow: 0px 1px 0px var(--line-gray);
   line-height: 0.8;
+  background-color: var(--bg);
 }
 .header-home {
   display: flex;
@@ -60,7 +61,7 @@
 
 @media only screen and (min-width: 500px) {
   .navbar-upper-links {
-    display: flex;
+    display: none;
     background-color: var(--accent-1);
   }
   .navbar {

@@ -4,10 +4,10 @@
   border-style: none;
   border-radius: 5px;
   text-transform: uppercase;
+
   color: white;
   font-weight: 900;
 
-  box-shadow: #52504e 1px 1px 5px;
   transition: 0.2s;
 }
 .btn-1:hover {
@@ -22,11 +22,10 @@
   padding: 12px 20px;
   border-style: none;
   border-radius: 5px;
-  text-transform: uppercase;
   color: white;
   font-weight: 900;
   font-family: "Roboto";
-  box-shadow: #52504e 1px 1px 1px;
+
   transition: 0.2s;
   display: flex;
   align-items: center;
@@ -94,7 +93,7 @@
   white-space: nowrap;
 }
 .cta:hover {
-  box-shadow: #52504e 0px 0px 2px;
+  /*box-shadow: #52504e 0px 0px 2px;*/
 }
 
 .btn-submit {
@@ -106,7 +105,7 @@
   color: white;
   font-weight: 900;
   height: 46px;
-  box-shadow: #52504e 1px 1px 5px;
+
   transition: 0.2s;
   width: 100%;
 }

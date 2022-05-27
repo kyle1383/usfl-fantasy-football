@@ -21,7 +21,6 @@ import UpdateLeague from "./components/league/UpdateLeague";
 import axios from "axios";
 import RequireAuth from "./components/private-route/RequireAuth";
 import RootRedirect from "./components/private-route/RootRedirect";
-import { Fragment } from "react/cjs/react.production.min";
 import "./styles/Fonts.css";
 import Admin from "./components/auth/Admin";
 
