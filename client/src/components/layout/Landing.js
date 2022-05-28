@@ -57,7 +57,7 @@ function Landing() {
           position={[0, 0, 3]}
         />
 
-        <Suspense fallback={<h1>Loading profile...</h1>}>
+        <Suspense fallback={null}>
           <Model position={[0, -2.75, 0]} /> /* highlight-line */
           <EffectComposer multisampling={8}>
             <Bloom
