@@ -26,7 +26,7 @@ import Admin from "./components/auth/Admin";
 
 const App = () => {
   if (process.env.NODE_ENV !== "production") {
-    const API_URL = "http://localhost:5000";
+    const API_URL = "http://localhost:5001";
     axios.defaults.baseURL = API_URL;
   }
 
